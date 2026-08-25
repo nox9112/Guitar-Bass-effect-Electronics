@@ -1,36 +1,119 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0a0e12"><title>Detail · Guitar/Bass Electronics</title><link rel="stylesheet" href="styles.css"><style>.schem{overflow:auto}.schem svg{min-width:620px;width:100%;height:210px;background:#0b1015;border:1px solid #2a3642;border-radius:12px}.schem text{fill:#f2f6f9;font:13px system-ui}.schem .block{fill:#18212b;stroke:#65d5aa;stroke-width:1.5}.schem .wire{stroke:#aab6c2;stroke-width:2;fill:none}.schem .note{fill:#aab6c2;font-size:11px}.internal-note{color:#65d5aa!important}</style></head><body><main class="detail"><a class="backlink" href="index.html">← Zur Übersicht</a><div id="content"></div></main><script>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0e12">
+<title>Detail · Guitar/Bass Electronics</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+.schem{overflow:hidden;border:1px solid #2a3642;border-radius:14px;background:#0b1015}
+.schem svg{display:block;width:100%;height:auto;background:#0b1015}
+.schem text{fill:#f2f6f9;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.schem .gridline{stroke:#ffffff0a;stroke-width:1}
+.schem .signal{stroke:#65d5aa;stroke-width:4;fill:none}
+.schem .branch{stroke:#65d5aa;stroke-width:2.5;stroke-dasharray:8 6;fill:none}
+.schem .rail{stroke:#8997a4;stroke-width:2.5;fill:none}
+.schem .hvrail{stroke:#ffb36b;stroke-width:3;fill:none}
+.schem .ground{stroke:#71808e;stroke-width:2;fill:none}
+.schem .stage{fill:#18212b;stroke:#65d5aa;stroke-width:2}
+.schem .stageAlt{fill:#151c24;stroke:#8997a4;stroke-width:1.5}
+.schem .stageTitle{font-size:18px;font-weight:800}
+.schem .stageSub{font-size:12px;fill:#aab6c2}
+.schem .label{font-size:14px;fill:#aab6c2}
+.schem .title{font-size:22px;font-weight:850}
+.schem .subtitle{font-size:13px;fill:#aab6c2}
+.schem .danger{font-size:13px;font-weight:800;fill:#ffb36b}
+.schem .legend{font-size:11px;fill:#aab6c2}
+.schem .componentCard{fill:#0f151b;stroke:#2a3642;stroke-width:1}
+.internal-note{color:#65d5aa!important}
+.detail .box p{word-break:normal}
+@media(max-width:760px){.schem{border-radius:11px}.internal-note{font-size:12px}}
+</style>
+</head>
+<body>
+<main class="detail">
+<a class="backlink" href="index.html">← Zur Übersicht</a>
+<div id="content"></div>
+</main>
+<script src="detail-data.js"></script>
+<script>
+(()=>{
+'use strict';
 const q=new URLSearchParams(location.search),type=q.get('type'),id=q.get('id');
-const N={
-'pedal:fuzz-face':['Fuzz Face','Fuzz','Zweistufiger Transistor-Fuzz mit starkem Cleanup über das Gitarren-Volume.','Input|Q1 Vorstufe|Feedback/Bias|Q2 Fuzz|Volume|Output','2× AC128 oder Silizium-Alternative; 33k, 470R, 8.2k, 100k; 2.2µF, 22µF, 10nF; Fuzz 1k lin; Volume 500k log; 3PDT, Klinken, Gehäuse','35–70 €','Q1/Q2 sockeln. Bei Germanium Leckstrom und Polarität beachten. Q2-Arbeitspunkt auf etwa halbe Versorgung abgleichen.'],
-'pedal:tube-screamer':['Tube Screamer-artig','Overdrive','4558-OpAmp mit Soft-Clipping im Gegenkopplungszweig und Mittenfokus.','Input Buffer|4558 Gain|Dioden-Clip|Tone|Level|Output Buffer','JRC4558; 2×1N4148; Drive 500k; Tone 20–25k; Level 100k; R/C-Netzwerk; 3PDT, Klinken, DC','30–60 €','Vref auf ca. 4.5 V prüfen. OpAmp sockeln. Bias- und Audiopfad sauber trennen.'],
-'pedal:rat':['RAT-artig','Distortion','Hohe OpAmp-Verstärkung mit antiparallelem Hard-Clipping und Filter.','Input|LM308/OP07 Gain|Hard Clip|Filter|Volume|Output','LM308N/OP07; 2×1N4148; 3×100k Potis; R/C-Netzwerk; 3PDT, Klinken, DC','35–65 €','IC und Clipping-Dioden sockeln. Gain-Leitungen kurz halten.'],
-'pedal:big-muff':['Big Muff Pi-artig','Fuzz / Sustain','Vier Transistorstufen, zwei Clippingstufen, Tone-Stack und Recovery-Stufe.','Q1 Boost|Q2 Clip|Q3 Clip|Tone Stack|Q4 Recovery|Volume','4×2N5088/BC550C; 4×1N4148; Sustain/Tone/Volume; ca.20 Widerstände + 13 Kondensatoren; Mechanik','35–70 €','Vor dem Bau Variante festlegen: Triangle, Ram’s Head, Russian usw.'],
-'pedal:compressor':['Dyna-Comp-artig','Compressor','OTA-Kompressor; Envelope-Detector steuert die Verstärkung.','Input Buffer|OTA Gain Cell|Output|Envelope Detector|Control','CA3080 oder Ersatz; Kleintransistoren; 1N4148/1N914; Output/Sensitivity; Bias-Trimmer','40–80 €','OTA sockeln. Envelope- und Bias-Pfad zuerst separat prüfen.'],
-'pedal:phase90':['Phase 90-artig','Phaser','Vier Allpass-Stufen; LFO moduliert gematchte JFETs.','Input Buffer|Allpass 1|Allpass 2|Allpass 3|Allpass 4|Dry/Wet Mix','4× gematchte JFETs; TL072/ähnlich; Speed-Poti; R/C-Allpassnetzwerk; Bias-Trimmer','45–90 €','JFETs matchen und Bias auf gleichmäßigen Sweep einstellen.'],
-'pedal:chorus':['CE-2-artig','Chorus','BBD verzögert eine Signalkopie; ein LFO moduliert die Delay-Zeit.','Preamp|BBD|Reconstruction Filter|Dry/Wet Mix|Output','MN3007; MN3101; 4558/TL022; Rate/Depth; Filter-, Bias- und Clock-R/C','70–140 €','BBD/Clock sockeln. Clock-Leitungen vom Audiopfad fernhalten. Bias abgleichen.'],
-'pedal:pt2399':['PT2399 Delay','Delay','Digitales Delay-IC mit analogem Ein-/Ausgangsfilter und Feedback.','Input Filter|PT2399|Wet Filter|Feedback|Mix|Output','PT2399; 5-V-Regler; Delay/Feedback/Mix; optional TL072; R/C-Netzwerk','30–60 €','Saubere 5 V und gute Entkopplung. Lange Delayzeiten werden lo-fi.'],
-'amp:5f1':['5F1 Champ','Röhrenamp · ca. 5 W','Klassischer Single-Ended-Amp mit 12AX7, 6V6 und 5Y3.','Input|12AX7 Preamp|Volume|6V6 Power|Output Transformer|Speaker','12AX7, 6V6, 5Y3; Netztrafo; Ausgangstrafo; 8–10" Speaker; Chassis; Turret/Eyelet; Hochvolt-R/C','300–500 €','Turret/Eyelet-Aufbau. Heizleitungen verdrillen, Masseführung planen. ACHTUNG: lebensgefährliche Hochspannung.'],
-'amp:5e3':['5E3 Deluxe','Röhrenamp · ca. 12–15 W','Kathodenbias-Push-Pull-Amp mit zwei 6V6 und interagierenden Volume-Reglern.','Inputs|12AY7/12AX7|Tone/Volume|Phase Inverter|2×6V6|OT/Speaker','Vorstufenröhren; 2×6V6; 5Y3; Netz-/Ausgangstrafo; 12" Speaker; Chassis; Hochvolt-R/C','450–750 €','Lead Dress ist wichtig gegen Brumm und Schwingneigung. ACHTUNG: lebensgefährliche Hochspannung.'],
-'amp:jcm800-2204':['JCM800 2204-artig','Röhrenamp · 50 W','Master-Volume-Amp mit kaskadierten ECC83-Stufen und EL34-Endstufe.','Input|Cascaded ECC83|Tone Stack|Master|Phase Inverter|2×EL34 / OT','3×ECC83; 2×EL34; Netz-/Ausgangstrafo; Hochvolt-Netzteil; Chassis; Gain/Master/EQ/Presence','700–1100 €','Nur für erfahrenen Hochvolt-Aufbau. Schutzleiter, Sicherungen, Lead Dress und Entladung kritisch.'],
-'amp:ac15':['AC15-artig','Röhrenamp · ca. 15 W','EL84-basierter britischer Amp mit Chime und Endstufen-Crunch.','Input|Preamp|Tone Network|Phase Inverter|2×EL84|OT/Speaker','Vorstufenröhren; 2×EL84; Trafos; 12" Speaker; Chassis; Hochvolt-R/C','500–850 €','Konkrete AC15-Revision vor Bau festlegen. Hochspannung beachten.'],
-'amp:b15n':['B-15N-artig','Bass-Röhrenamp','Klassischer warmer Bass-Amp mit großer Ausgangsübertrager-/Netzteilanforderung.','Bass Input|Tube Preamp|Tone|Phase Inverter|Power Stage|Bass Speaker','Röhren je Revision; großer Netz-/Ausgangstrafo; Bass-Speaker/Cabinet; Chassis; Hochvolt-R/C','700–1200 €','Revision zuerst festlegen. Ausgangstrafo und Netzteil bestimmen Kosten und Gewicht.'],
-'amp:ruby':['Ruby / LM386','Mini Solid-State Amp','Kleiner Übungs-/Testamp auf LM386-Basis.','Input|JFET Buffer optional|Gain|LM386|Output Cap|Speaker','LM386; optional JFET; Gain/Volume; wenige R/C; 8-Ω-Speaker; 9–12-V-Versorgung','15–40 €','Ideal für Lochraster. Ausgangselko und Versorgung ausreichend dimensionieren.'],
-'amp:tda7294':['TDA7294 Power Amp','Solid-State · ca. 50–70 W','Leistungs-IC-Endstufe für Gitarren-/Bass-Poweramp-Projekte.','Preamp|Input Network|TDA7294|Output Network|Speaker','TDA7294; symmetrisches Netzteil; Trafo/Gleichrichter/Elkos; großer Kühlkörper; Sicherungen; R/C','90–180 €','Kühlung, Sternmasse und Netzteilführung sind entscheidend.'],
-'wiring:strat-5way':['Strat 5-Way Wiring','SSS Wiring','3 Single Coils, 5-Wege-Schalter, Master Volume und zwei Tone-Regler.','Neck/Middle/Bridge|5-Way Blade|Volume|Tone 1/2|Output Jack','5-Way Blade; 3×250k Potis; 22–47nF Tone Cap; Mono-Klinke; Hookup Wire','20–45 €','Schalterbelegung je Hersteller prüfen. Masse sauber bus-/sternartig führen.'],
-'wiring:tele-3way':['Tele 3-Way Wiring','SS Wiring','Bridge, beide parallel, Neck über 3-Wege-Schalter.','Bridge/Neck|3-Way Blade|Volume|Tone|Output Jack','3-Way Blade; 2×250k; 22–47nF; Klinke; Draht','15–35 €','Bridge-Baseplate/Masse getrennt behandeln, falls spätere Serienmods geplant sind.'],
-'wiring:les-paul':['Les Paul 50s / Modern','HH Wiring','Zwei Humbucker, zwei Volume, zwei Tone; modern oder 50s Tone-Anbindung.','Neck/Bridge|3-Way Toggle|2×Volume|2×Tone|Output','3-Way Toggle; 4×500k; 2×22nF; Klinke; abgeschirmter Draht','25–55 €','50s-Wiring koppelt Tone anders an Volume; beeinflusst Höhenverlust beim Zurückregeln.'],
-'wiring:coil-split':['Coil Split','Humbucker Mod','Eine Spule eines 4-adrigen Humbuckers wird per Schalter kurzgeschlossen.','Humbucker Coils|Push/Pull|Selected Coil|Volume/Tone|Output','4-adriger Humbucker; Push/Pull oder Mini-Toggle; Draht','8–20 € plus Pickup','Farbcodes sind herstellerabhängig. Serienlink korrekt identifizieren.'],
-'wiring:series-parallel':['Series / Parallel','Humbucker Mod','Umschaltung zwischen serieller und paralleler Verschaltung beider Spulen.','Coil A/B|DPDT Switch|Series OR Parallel|Volume/Tone|Output','4-adriger Humbucker; DPDT/Push-Pull; Draht','8–20 € plus Pickup','Parallel bleibt hum-cancelling, klingt aber heller und leiser als seriell.'],
-'wiring:treble-bleed':['Treble Bleed','Volume Mod','RC-Netzwerk am Volume-Poti erhält Höhen beim Zurückdrehen.','Pickup|Volume Pot + RC|Tone|Output','100–330pF Kondensator; optional 100–220k Widerstand; Draht','1–5 €','Werte nach Pickup/Poti abstimmen: parallel oder Kinman-Variante.'],
-'wiring:blower-switch':['Blower Switch','Direct Bypass','Schaltet gewählten Pickup direkt zur Ausgangsbuchse und umgeht Regler.','Pickup|DPDT/3PDT|Direct Out OR Normal Circuit|Jack','DPDT/3PDT; Draht; optional zusätzlicher Widerstand','5–15 €','Direktweg möglichst kurz halten; Schalter logisch testen bevor eingelötet wird.'],
-'pickup:strat-pickup':['Strat Single Coil','Pickup-Bau','Klassischer Single Coil mit Alnico-Rod-Magneten und 42-AWG-Draht.','Pole Pieces|Flatwork|Coil ~7k–8.5k turns|Lead Wires','42 AWG Magnetdraht; 6 Alnico Rods; Fiber Flatwork; Eyelets; Anschlussdraht; Wachs fürs Potting','20–45 €','Wickelrichtung und Magnetpolung dokumentieren. Gleichmäßig wickeln, dann messen und potten.'],
-'pickup:tele-bridge-pickup':['Tele Bridge','Pickup-Bau','Single Coil mit Metall-Baseplate und typischer höherer Induktivität.','Pole Pieces|Flatwork|Coil|Baseplate|Leads','42/43 AWG; 6 Alnico Rods; Flatwork; Stahl-/Kupferbaseplate; Eyelets; Draht','25–50 €','Baseplate elektrisch erden. Windungszahl und Drahtstärke bestimmen Output/Resonanz.'],
-'pickup:p90':['P-90','Pickup-Bau','Breiter Single Coil mit zwei Bar-Magneten unter den Polschrauben.','2 Bar Magnets|Steel Keeper|Pole Screws|Wide Coil|Leads','42 AWG; 2×Alnico Bar; 6 Polschrauben; Bobbin; Baseplate; Draht','30–60 €','Magnete gegensinnig an Keeper/Polschrauben anordnen. Typisch etwa 10k Windungen.'],
-'pickup:paf':['PAF-artiger Humbucker','Pickup-Bau','Zwei Spulen mit Bar-Magnet; seriell und gegenphasig für Brummunterdrückung.','Slug Coil|Screw Coil|Bar Magnet|Series Link|4-Conductor Lead','42 AWG; 2 Bobbins; Bar Magnet; Slugs/Screws; Baseplate; Keeper; 4-adriges Kabel','40–80 €','Je Spule grob um 5k Windungen; Wickelrichtung und magnetische Polarität spiegeln.'],
-'pickup:p-bass':['Precision Bass Split Coil','Pickup-Bau','Zwei räumlich getrennte Teilspulen, elektrisch hum-cancelling.','E/A Coil|D/G Coil|Reverse Wind/Polarity|Series|Output','42/43 AWG; 2 Bobbins/Flatworks; Alnico Rods; Anschlussdraht','30–65 €','RWRP zwischen den Hälften einhalten, sonst keine Brummunterdrückung.'],
-'pickup:j-bass':['Jazz Bass Single Coil','Pickup-Bau','Lange schmale Bass-Spule mit Alnico-Rods.','Pole Pieces|Long Coil|Leads|Potting','42/43 AWG; Alnico Rods; Bobbin/Flatwork; Draht; Wachs','25–55 €','Neck/Bridge unterscheiden sich oft in Länge und Wicklung. Paarweise RWRP möglich.']};
-const x=N[type+':'+id]||['Nicht gefunden','','Diese Detailseite existiert nicht.','Input|Output','—','—','—'];
-function schematic(sig){const a=sig.split('|'),W=680,Y=82;let s=`<svg viewBox="0 0 ${W} 180" role="img" aria-label="Interner Schaltungsübersichtsplan">`;const bw=95,g=(W-40-bw*a.length)/(Math.max(1,a.length-1));a.forEach((t,i)=>{const px=20+i*(bw+g);if(i)s+=`<path class="wire" d="M${px-g} ${Y+25}H${px}"/>`;s+=`<rect class="block" x="${px}" y="${Y}" width="${bw}" height="50" rx="8"/><text x="${px+bw/2}" y="${Y+22}" text-anchor="middle">${t.replace(/&/g,'&amp;')}</text>`;});s+=`<text class="note" x="20" y="160">Interner Funktions-/Schaltungsplan – unabhängig von externen Websites</text></svg>`;return s}
-function bomRows(s){return s.split(';').map(v=>`<tr><td>${v.trim()}</td></tr>`).join('')}
-content.innerHTML=`<div class="detail-top"><div><span class="ey">${x[1]}</span><h1>${x[0]}</h1><p class="lead">${x[2]}</p></div><div class="bigvis"><svg class="icon" viewBox="0 0 120 100"><rect x="18" y="12" width="84" height="74" rx="10" fill="#35404a"/><circle cx="42" cy="35" r="8" fill="#111820"/><circle cx="78" cy="35" r="8" fill="#111820"/><circle cx="60" cy="67" r="9" fill="#d6dde1"/></svg><svg class="wave" viewBox="0 0 150 90"><line class="axis" x1="0" y1="45" x2="150" y2="45"/><path class="in" d="M0 45C12 12 25 12 37 45S62 78 75 45S100 12 112 45S137 78 150 45"/><path class="out" d="M0 45C10 20 23 16 34 29S57 72 72 58S96 16 111 31S137 72 150 45"/></svg></div></div><div class="boxes"><div class="box full"><h3>Interner Schaltplan / Signalweg</h3><div class="schem">${schematic(x[3])}</div><p class="internal-note">Dieser Plan liegt direkt in unserem GitHub-Projekt. Es wird keine externe Website geöffnet.</p></div><div class="box full"><h3>Materialliste</h3><table class="bom"><tbody>${bomRows(x[4])}</tbody></table></div><div class="box"><h3>Kostenüberschlag</h3><div class="cost">${x[5]}</div><p>Grobe DIY-Spanne, abhängig von Händler, Gehäuse, Trafos, Röhren und vorhandenen Teilen.</p></div><div class="box"><h3>Bauhinweise</h3><p>${x[6]}</p></div><div class="box full"><h3>Beschreibung / Aufbau</h3><p>${x[2]}</p><p><b>Signalweg:</b> ${x[3].replaceAll('|',' → ')}</p></div></div>`;
-</script></body></html>
+const key=(type||'')+':'+(id||'');
+const x=window.GBE_DATA&&window.GBE_DATA[key]||['Nicht gefunden','','Diese Detailseite existiert nicht.','Input|Output','—','—','—'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shorten=(s,n=33)=>s.length>n?s.slice(0,n-1)+'…':s;
+const parts=x[4].split(';').map(v=>v.trim()).filter(Boolean);
+
+function wrapLabel(text,max=17){
+ const words=String(text).split(/\s+/);const lines=[''];
+ for(const w of words){const i=lines.length-1;if((lines[i]+' '+w).trim().length>max&&lines[i])lines.push(w);else lines[i]=(lines[i]+' '+w).trim();}
+ return lines.slice(0,3);
+}
+function stageText(label,cx,cy){
+ const ls=wrapLabel(label);let out=`<text class="stageTitle" text-anchor="middle" x="${cx}" y="${cy-(ls.length-1)*10}">`;
+ ls.forEach((l,i)=>out+=`<tspan x="${cx}" dy="${i?20:0}">${esc(l)}</tspan>`);return out+'</text>';
+}
+function schematic(sig){
+ const stages=sig.split('|').map(s=>s.trim()).filter(Boolean),W=1200,H=460;
+ const left=55,right=55,top=138,bw=Math.max(120,Math.min(165,(W-left-right-(stages.length-1)*34)/stages.length));
+ const gap=stages.length>1?(W-left-right-bw*stages.length)/(stages.length-1):0;
+ const y=175,bh=92;
+ const isTube=type==='amp'&&!['ruby','tda7294'].includes(id);
+ const isSolidAmp=type==='amp'&&!isTube;
+ const railLabel=isTube?'B+ / HT':isSolidAmp?'±V POWER':type==='pedal'?'9 V':'SIGNAL / HOT';
+ const railClass=isTube?'hvrail':'rail';
+ const cardCount=Math.min(parts.length,6),cardW=174,cardGap=12,cardStart=(W-(cardCount*cardW+(cardCount-1)*cardGap))/2;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(x[0])} – technische Schaltungsübersicht" xmlns="http://www.w3.org/2000/svg">`;
+ s+=`<defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path class="gridline" d="M24 0H0V24"/></pattern><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#65d5aa"/></marker></defs><rect width="1200" height="460" fill="url(#grid)"/>`;
+ s+=`<text class="title" x="42" y="40">${esc(x[0])}</text><text class="subtitle" x="42" y="64">Technische Schaltungsübersicht · ${esc(x[1])}</text>`;
+ s+=`<path class="${railClass}" d="M55 106H1145"/><text class="${isTube?'danger':'label'}" x="55" y="96">${railLabel}</text>`;
+ if(isTube)s+=`<text class="danger" x="1145" y="96" text-anchor="end">⚠ Hochspannung</text>`;
+ stages.forEach((label,i)=>{
+  const px=left+i*(bw+gap),cx=px+bw/2;
+  if(i){const prev=left+(i-1)*(bw+gap)+bw;s+=`<path class="signal" marker-end="url(#arrow)" d="M${prev+5} ${y+bh/2}H${px-8}"/>`;}
+  s+=`<rect class="stage" x="${px}" y="${y}" width="${bw}" height="${bh}" rx="14"/>`;
+  s+=stageText(label,cx,y+40);
+  const p=parts[i%Math.max(1,parts.length)]||'';
+  if(p)s+=`<text class="stageSub" x="${cx}" y="${y+76}" text-anchor="middle">${esc(shorten(p,26))}</text>`;
+  if(type==='pedal'||type==='amp')s+=`<path class="rail" d="M${cx} 106V${y}"/>`;
+  if(type==='wiring')s+=`<path class="ground" d="M${cx} ${y+bh}V304"/>`;
+ });
+ if(stages.some(v=>/feedback/i.test(v))&&stages.length>2){
+  const fi=stages.findIndex(v=>/feedback/i.test(v));const from=left+fi*(bw+gap)+bw/2,to=left+Math.max(0,fi-2)*(bw+gap)+bw/2;
+  s+=`<path class="branch" marker-end="url(#arrow)" d="M${from} ${y+bh}V315H${to}V${y+bh+3}"/><text class="label" x="${(from+to)/2}" y="335" text-anchor="middle">Rückkopplung</text>`;
+ }
+ if(type==='wiring')s+=`<path class="ground" d="M55 304H1145"/><text class="label" x="55" y="326">Masse / Shield</text>`;
+ if(type==='pickup'){
+  s+=`<path class="ground" d="M55 304H1145"/><text class="label" x="55" y="326">Magnetischer Aufbau / Wicklung</text>`;
+  for(let i=0;i<6;i++){const cx=450+i*58;s+=`<circle cx="${cx}" cy="304" r="11" fill="#202b35" stroke="#ffb36b"/><path d="M${cx-15} 344Q${cx} 324 ${cx+15} 344Q${cx} 364 ${cx-15} 344" fill="none" stroke="#65d5aa" stroke-width="2"/>`;}
+ }
+ if(cardCount){
+  s+=`<text class="label" x="42" y="377">Kernkomponenten / Materialgruppen</text>`;
+  parts.slice(0,cardCount).forEach((p,i)=>{const px=cardStart+i*(cardW+cardGap);s+=`<rect class="componentCard" x="${px}" y="392" width="${cardW}" height="42" rx="8"/><text class="legend" x="${px+cardW/2}" y="417" text-anchor="middle">${esc(shorten(p,27))}</text>`;});
+ }
+ s+=`<circle cx="42" cy="450" r="4" fill="#65d5aa"/><text class="legend" x="53" y="454">Signalpfad</text><line x1="135" y1="450" x2="161" y2="450" class="rail"/><text class="legend" x="170" y="454">Versorgung / Verbindung</text>`;
+ if(isTube)s+=`<line x1="345" y1="450" x2="371" y2="450" class="hvrail"/><text class="legend" x="380" y="454">Hochspannung</text>`;
+ return s+'</svg>';
+}
+function bomRows(s){return s.split(';').map(v=>`<tr><td>${esc(v.trim())}</td></tr>`).join('')}
+function waveform(){
+ let out='M0 45C10 20 23 16 34 29S57 72 72 58S96 16 111 31S137 72 150 45';
+ if(type==='wiring'||type==='pickup')out='M0 45C12 12 25 12 37 45S62 78 75 45S100 12 112 45S137 78 150 45';
+ if(type==='amp')out='M0 45C10 10 25 10 36 28L43 28C50 30 52 39 55 45C64 70 72 75 82 68C94 60 98 50 102 42C110 19 123 11 135 22C142 29 146 38 150 45';
+ return `<svg class="wave" viewBox="0 0 150 90" role="img" aria-label="Signalform vor und nach der Schaltung"><line class="axis" x1="0" y1="45" x2="150" y2="45"/><path class="in" d="M0 45C12 12 25 12 37 45S62 78 75 45S100 12 112 45S137 78 150 45"/><path class="out" d="${out}"/></svg>`;
+}
+function icon(){
+ if(type==='pickup')return `<svg class="icon" viewBox="0 0 120 100"><rect x="15" y="31" width="90" height="38" rx="8" fill="#6e6d79"/>${[30,42,54,66,78,90].map(cx=>`<circle cx="${cx}" cy="50" r="4" fill="#ddd"/>`).join('')}</svg>`;
+ if(type==='amp')return `<svg class="icon" viewBox="0 0 120 100"><rect x="10" y="18" width="100" height="66" rx="8" fill="#353c44"/><rect x="18" y="26" width="84" height="15" rx="3" fill="#161b20"/><circle cx="60" cy="63" r="18" fill="#161b20" stroke="#77838e"/></svg>`;
+ return `<svg class="icon" viewBox="0 0 120 100"><rect x="18" y="12" width="84" height="74" rx="10" fill="#35404a"/><circle cx="42" cy="35" r="8" fill="#111820"/><circle cx="78" cy="35" r="8" fill="#111820"/><circle cx="60" cy="67" r="9" fill="#d6dde1"/></svg>`;
+}
+const content=document.getElementById('content');
+content.innerHTML=`<div class="detail-top"><div><span class="ey">${esc(x[1])}</span><h1>${esc(x[0])}</h1><p class="lead">${esc(x[2])}</p></div><div class="bigvis">${icon()}${waveform()}</div></div><div class="boxes"><div class="box full"><h3>Schaltungsübersicht</h3><div class="schem">${schematic(x[3])}</div><p class="internal-note">Tippe auf den Plan für die große, zoombare Ansicht. Der Plan liegt direkt in diesem Projekt und öffnet keine externe Website.</p></div><div class="box full"><h3>Materialliste</h3><table class="bom"><tbody>${bomRows(x[4])}</tbody></table></div><div class="box"><h3>Kostenüberschlag</h3><div class="cost">${esc(x[5])}</div><p>Grobe DIY-Spanne, abhängig von Händler, Gehäuse, Trafos, Röhren und vorhandenen Teilen.</p></div><div class="box"><h3>Bauhinweise</h3><p>${esc(x[6])}</p></div><div class="box full"><h3>Beschreibung / Aufbau</h3><p>${esc(x[2])}</p><p><b>Signalweg:</b> ${x[3].split('|').map(esc).join(' → ')}</p></div></div>`;
+})();
+</script>
+<script src="schematic-lightbox.js"></script>
+</body>
+</html>
