@@ -35,7 +35,7 @@ for(const [type,ids] of Object.entries(detailIds)){
    await page.goto(`/detail2.html?type=${type}&id=${id}`);
    await expect(page.locator('h1')).not.toHaveText('Nicht gefunden');
    await expect(page.locator('.schem svg')).toHaveCount(1);
-   await expect(page.locator('.bom tbody tr')).toHaveCountGreaterThan(0);
+   expect(await page.locator('.bom tbody tr').count()).toBeGreaterThan(0);
    await expect(page.locator('.cost')).not.toBeEmpty();
    const hrefs=await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.getAttribute('href')));
    expect(hrefs.filter(h=>/^https?:/i.test(h||''))).toEqual([]);
