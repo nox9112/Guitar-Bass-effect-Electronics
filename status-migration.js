@@ -1,0 +1,1 @@
+(()=>{try{const oldKey='gbe-build-status-v2:pedal:fuzz-face',newKey='gbe-build-status-v3:pedal:fuzz-face';const old=localStorage.getItem(oldKey);if(old&&!localStorage.getItem(newKey))localStorage.setItem(newKey,old)}catch{}})();
