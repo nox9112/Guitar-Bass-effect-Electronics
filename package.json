@@ -1,0 +1,7 @@
+{
+  "name":"guitar-bass-effect-electronics",
+  "private":true,
+  "version":"1.0.0",
+  "scripts":{"test:e2e":"playwright test"},
+  "devDependencies":{"@playwright/test":"1.55.0"}
+}
