@@ -1,27 +1,39 @@
 <!doctype html>
-<html lang="de" data-page="home">
+<html lang="de" data-page="home" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090c10">
+<meta name="theme-color" content="#0b0e12">
 <title>ToneForge Workshop · Guitar & Bass Electronics</title>
-<meta name="description" content="Web-Werkstatt für Gitarren-, Bass- und Effekt-Elektronik mit Referenzschaltplänen, BOM, Bauhinweisen und Teilelager.">
+<meta name="description" content="Technische Web-Werkstatt für Gitarren-, Bass- und Effekt-Elektronik mit Referenzschaltplänen, BOM, Bauhinweisen und Teilelager.">
 <link rel="icon" href="app-icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css?v=13">
+<link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
 <div class="app-shell">
   <aside class="sidebar" aria-label="Hauptnavigation">
-    <a class="app-brand" href="index.html" aria-label="ToneForge Startseite"><span class="brand-mark">TF</span><span><strong>ToneForge</strong><small>WORKSHOP</small></span></a>
-    <nav class="side-nav">
-      <a class="active" href="#dashboard" data-nav="dashboard"><span>⌂</span>Übersicht</a>
-      <a href="#library" data-nav="library"><span>◫</span>Bibliothek</a>
-      <a href="#favorites" data-nav="favorites"><span>★</span>Favoriten</a>
-      <a href="#inventory" data-nav="inventory"><span>▦</span>Teilelager</a>
-      <a href="#workspace" data-nav="workspace"><span>⇄</span>Workspace</a>
-    </nav>
-    <div class="side-card">
-      <span class="status-dot"></span><div><b>Web Workspace</b><small>Daten bleiben lokal im Browser</small></div>
+    <a class="app-brand" href="index.html"><span class="brand-mark">TF</span><span><strong>ToneForge</strong><small>WORKSHOP</small></span></a>
+
+    <div class="nav-group">
+      <span class="nav-label">Werkstatt</span>
+      <nav class="side-nav">
+        <a class="active" href="#library"><span>◫</span>Bibliothek</a>
+        <a href="#favorites"><span>★</span>Favoriten</a>
+        <a href="#recent"><span>↺</span>Zuletzt geöffnet</a>
+      </nav>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-label">Organisation</span>
+      <nav class="side-nav">
+        <a href="#inventory"><span>▦</span>Teilelager</a>
+        <a href="#workspace"><span>⇄</span>Backup</a>
+      </nav>
+    </div>
+
+    <div class="sidebar-foot">
+      <span class="status-dot"></span>
+      <div><b>Web Workspace</b><small>Lokale Browser-Daten</small></div>
     </div>
   </aside>
 
@@ -29,62 +41,57 @@
     <header class="app-topbar">
       <div class="global-search">
         <span aria-hidden="true">⌕</span>
-        <input id="librarySearch" data-library-search type="search" placeholder="Pedal, Schaltung, Bauteil …" autocomplete="off" aria-label="Bibliothek durchsuchen">
+        <input id="librarySearch" data-library-search type="search" placeholder="Projekt, Schaltung, Bauteil …" autocomplete="off" aria-label="Bibliothek durchsuchen">
         <kbd>Ctrl K</kbd>
         <button type="button" data-clear-search hidden aria-label="Suche löschen">×</button>
       </div>
-      <div class="top-actions">
-        <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln" title="Darstellung wechseln">◐</button>
-      </div>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln" title="Darstellung wechseln">◐</button>
     </header>
 
     <main class="content">
-      <section id="dashboard" class="hero-dashboard">
-        <div class="hero-copy">
-          <span class="ey">Guitar · Bass · Effects · Electrical Engineering</span>
-          <h1>Deine Elektronik-Werkstatt.<br><span>Der Schaltplan hat Priorität.</span></h1>
-          <p>Referenzschaltpläne, Stücklisten, Gitarrenverdrahtung, Tonabnehmer, Verstärker und Werkstattbestand – übersichtlich im Browser.</p>
-          <div class="hero-actions"><a class="primary-btn" href="#library">Bibliothek öffnen</a><button class="ghost-btn" type="button" data-random-project>Projekt entdecken</button></div>
+      <section class="workspace-header" aria-labelledby="workspaceTitle">
+        <div class="workspace-title">
+          <span class="ey">Electrical Engineering Library</span>
+          <h1 id="workspaceTitle">ToneForge Workshop</h1>
+          <p>Schaltpläne zuerst. Kompakte Projektdaten, Stücklisten und Werkstattinformationen danach.</p>
         </div>
-        <div class="signal-card" aria-hidden="true">
-          <div class="signal-head"><span>SIGNAL FLOW</span><i></i></div>
-          <svg viewBox="0 0 560 180" class="hero-wave"><defs><linearGradient id="wg" x1="0" x2="1"><stop stop-color="#5fe0af"/><stop offset="1" stop-color="#7ea3ff"/></linearGradient></defs><path d="M0 90 C25 16 55 16 80 90 S135 164 160 90 S215 16 240 90 S295 164 320 90 S375 16 400 90 S455 164 480 90 S535 16 560 90"/><path class="wave-echo" d="M0 90 C35 40 65 40 95 90 S155 140 185 90 S245 40 275 90 S335 140 365 90 S425 40 455 90 S525 140 560 90"/></svg>
-          <div class="signal-meta"><span><b>PRIMARY</b>Schaltplan</span><span><b>SECONDARY</b>Signalfluss</span><span><b>CHECK</b>BOM / Revision</span></div>
+        <div class="workspace-metrics" aria-label="Werkstattstatus">
+          <div><span>Projekte</span><strong data-stat-projects>0</strong></div>
+          <div><span>Favoriten</span><strong data-stat-favorites>0</strong></div>
+          <div><span>Build</span><strong data-stat-progress>0%</strong><small data-stat-progress-label>noch kein Build</small></div>
+          <div><span>Teile</span><strong data-stat-stock>0</strong></div>
         </div>
       </section>
 
-      <section class="stats-grid" aria-label="Werkstattstatus">
-        <article class="stat-card"><span>Bibliothek</span><strong data-stat-projects>0</strong><small>technische Projekte</small></article>
-        <article class="stat-card"><span>Favoriten</span><strong data-stat-favorites>0</strong><small>gespeicherte Builds</small></article>
-        <article class="stat-card"><span>Build-Status</span><strong data-stat-progress>0%</strong><small data-stat-progress-label>noch kein Build gestartet</small></article>
-        <article class="stat-card"><span>Teilelager</span><strong data-stat-stock>0</strong><small>Einheiten lokal erfasst</small></article>
-      </section>
-
-      <section id="recent" class="section home-subsection" data-recent-section hidden>
-        <div class="section-head"><div><span class="ey">Continue building</span><h2>Zuletzt geöffnet</h2></div><button class="text-button" type="button" data-clear-recent>Verlauf leeren</button></div>
+      <section id="recent" class="section compact-section" data-recent-section hidden>
+        <div class="section-head"><div><span class="ey">Verlauf</span><h2>Zuletzt geöffnet</h2></div><button class="text-button" type="button" data-clear-recent>Verlauf leeren</button></div>
         <div class="horizontal-cards" data-recent-list></div>
       </section>
 
-      <section id="favorites" class="section home-subsection" data-favorites-section hidden>
-        <div class="section-head"><div><span class="ey">Pinned</span><h2>Favoriten</h2></div><span class="count" data-favorites-count></span></div>
+      <section id="favorites" class="section compact-section" data-favorites-section hidden>
+        <div class="section-head"><div><span class="ey">Gemerkt</span><h2>Favoriten</h2></div><span class="count" data-favorites-count></span></div>
         <div class="horizontal-cards" data-favorites-list></div>
       </section>
 
       <section id="library" class="section library-zone">
-        <div class="section-head library-heading"><div><span class="ey">Technical library</span><h2>Bibliothek</h2><p data-search-summary>Alle Projekte durchsuchen oder direkt in eine Kategorie springen.</p></div><div class="category-pills" data-category-pills></div></div>
+        <div class="library-toolbar">
+          <div><span class="ey">Technical Library</span><h2>Bibliothek</h2><p data-search-summary>Alle Projekte durchsuchen oder filtern.</p></div>
+          <div class="category-pills" data-category-pills></div>
+        </div>
         <div data-library-categories></div>
       </section>
 
       <section id="inventory" class="section inventory-zone">
-        <div class="section-head"><div><span class="ey">Workshop stock</span><h2>Common electrical components</h2><p>Dein lokales Teilelager. Mengen werden im Browser gespeichert.</p></div><span class="count" data-inventory-total></span></div>
+        <div class="section-head"><div><span class="ey">Workshop Stock</span><h2>Teilelager</h2><p>Lokaler Bestand für häufige Elektronikkomponenten.</p></div><span class="count" data-inventory-total></span></div>
         <div class="component-list" id="components" data-component-list></div>
       </section>
 
       <section id="workspace" class="section workspace-zone">
-        <div class="section-head"><div><span class="ey">Backup</span><h2>Workspace</h2><p>Favoriten, Notizen, Teilelager und Fortschritt als Datei sichern oder auf einem anderen Browser wiederherstellen.</p></div></div>
-        <div class="workspace-grid">
-          <article class="workspace-card"><span class="workspace-icon">↓</span><div><h3>Backup exportieren</h3><p>Speichert deinen lokalen Workspace als JSON-Datei.</p></div><button class="ghost-btn" type="button" data-export-workspace>Exportieren</button></article>
-          <article class="workspace-card"><span class="workspace-icon">↑</span><div><h3>Backup importieren</h3><p>Stellt Workspace-Daten aus einer zuvor exportierten Datei wieder her.</p></div><button class="ghost-btn" type="button" data-import-workspace>Datei wählen</button><input type="file" accept="application/json,.json" data-import-file hidden></article>
+        <div class="section-head"><div><span class="ey">Backup</span><h2>Workspace sichern</h2><p>Favoriten, Notizen, Teilelager und Fortschritt als JSON sichern oder wiederherstellen.</p></div></div>
+        <div class="workspace-actions">
+          <button class="action-row" type="button" data-export-workspace><span>↓</span><b>Backup exportieren</b><small>JSON-Datei speichern</small></button>
+          <button class="action-row" type="button" data-import-workspace><span>↑</span><b>Backup importieren</b><small>JSON-Datei laden</small></button>
+          <input type="file" accept="application/json,.json" data-import-file hidden>
         </div>
       </section>
     </main>
@@ -92,8 +99,9 @@
 </div>
 
 <div class="toast" role="status" aria-live="polite" data-toast></div>
-<script src="app-state.js?v=1"></script>
+<script src="app-state.js?v=2"></script>
 <script src="library-data.js?v=1"></script>
-<script src="home-v2.js?v=2"></script>
+<script src="project-media.js?v=1"></script>
+<script src="home-v2.js?v=3"></script>
 </body>
 </html>
