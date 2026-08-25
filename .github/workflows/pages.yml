@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy ToneForge Web to GitHub Pages
 on:
   push:
     branches: [main]
@@ -17,21 +17,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout ToneForge V2
+      - name: Checkout current ToneForge web branch
         uses: actions/checkout@v4
         with:
           ref: toneforge-v2
-      - name: Prepare production assets
-        shell: bash
-        run: |
-          set -euo pipefail
-          for name in styles.css schematic-v2.css wiring-schematics.js schematic-viewer-v3.js schematic-renderer.js pedal-schematics.js; do
-            base64 -d ".deploy/${name}.gz.b64" | gzip -d > "${name}"
-          done
-          rm -rf .deploy
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
+      - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
