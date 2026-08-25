@@ -41,7 +41,7 @@ test('Fuzz Face detail prioritizes real source schematic',async({page})=>{
   await expect(page.locator('.schem')).toHaveCount(0);
   await expect(page.locator('[data-wake-lock]')).toHaveCount(0);
   await expect(page.locator('[data-detail-share]')).toHaveCount(0);
-  await expect(page.locator('.bom tbody tr').count()).resolves.toBeGreaterThan(0);
+  expect(await page.locator('.bom tbody tr').count()).toBeGreaterThan(0);
 });
 
 test('Micro Amp uses product photo but does not fake a schematic',async({page})=>{
