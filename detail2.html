@@ -5,115 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0e12">
 <title>Detail · Guitar/Bass Electronics</title>
-<link rel="stylesheet" href="styles.css">
-<style>
-.schem{overflow:hidden;border:1px solid #2a3642;border-radius:14px;background:#0b1015}
-.schem svg{display:block;width:100%;height:auto;background:#0b1015}
-.schem text{fill:#f2f6f9;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-.schem .gridline{stroke:#ffffff0a;stroke-width:1}
-.schem .signal{stroke:#65d5aa;stroke-width:4;fill:none}
-.schem .branch{stroke:#65d5aa;stroke-width:2.5;stroke-dasharray:8 6;fill:none}
-.schem .rail{stroke:#8997a4;stroke-width:2.5;fill:none}
-.schem .hvrail{stroke:#ffb36b;stroke-width:3;fill:none}
-.schem .ground{stroke:#71808e;stroke-width:2;fill:none}
-.schem .stage{fill:#18212b;stroke:#65d5aa;stroke-width:2}
-.schem .stageAlt{fill:#151c24;stroke:#8997a4;stroke-width:1.5}
-.schem .stageTitle{font-size:18px;font-weight:800}
-.schem .stageSub{font-size:12px;fill:#aab6c2}
-.schem .label{font-size:14px;fill:#aab6c2}
-.schem .title{font-size:22px;font-weight:850}
-.schem .subtitle{font-size:13px;fill:#aab6c2}
-.schem .danger{font-size:13px;font-weight:800;fill:#ffb36b}
-.schem .legend{font-size:11px;fill:#aab6c2}
-.schem .componentCard{fill:#0f151b;stroke:#2a3642;stroke-width:1}
-.internal-note{color:#65d5aa!important}
-.detail .box p{word-break:normal}
-@media(max-width:760px){.schem{border-radius:11px}.internal-note{font-size:12px}}
-</style>
+<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="schematic-v2.css?v=3">
 </head>
 <body>
 <main class="detail">
 <a class="backlink" href="index.html">← Zur Übersicht</a>
 <div id="content"></div>
 </main>
-<script src="detail-data.js"></script>
-<script>
-(()=>{
-'use strict';
-const q=new URLSearchParams(location.search),type=q.get('type'),id=q.get('id');
-const key=(type||'')+':'+(id||'');
-const x=window.GBE_DATA&&window.GBE_DATA[key]||['Nicht gefunden','','Diese Detailseite existiert nicht.','Input|Output','—','—','—'];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const shorten=(s,n=33)=>s.length>n?s.slice(0,n-1)+'…':s;
-const parts=x[4].split(';').map(v=>v.trim()).filter(Boolean);
-
-function wrapLabel(text,max=17){
- const words=String(text).split(/\s+/);const lines=[''];
- for(const w of words){const i=lines.length-1;if((lines[i]+' '+w).trim().length>max&&lines[i])lines.push(w);else lines[i]=(lines[i]+' '+w).trim();}
- return lines.slice(0,3);
-}
-function stageText(label,cx,cy){
- const ls=wrapLabel(label);let out=`<text class="stageTitle" text-anchor="middle" x="${cx}" y="${cy-(ls.length-1)*10}">`;
- ls.forEach((l,i)=>out+=`<tspan x="${cx}" dy="${i?20:0}">${esc(l)}</tspan>`);return out+'</text>';
-}
-function schematic(sig){
- const stages=sig.split('|').map(s=>s.trim()).filter(Boolean),W=1200,H=460;
- const left=55,right=55,top=138,bw=Math.max(120,Math.min(165,(W-left-right-(stages.length-1)*34)/stages.length));
- const gap=stages.length>1?(W-left-right-bw*stages.length)/(stages.length-1):0;
- const y=175,bh=92;
- const isTube=type==='amp'&&!['ruby','tda7294'].includes(id);
- const isSolidAmp=type==='amp'&&!isTube;
- const railLabel=isTube?'B+ / HT':isSolidAmp?'±V POWER':type==='pedal'?'9 V':'SIGNAL / HOT';
- const railClass=isTube?'hvrail':'rail';
- const cardCount=Math.min(parts.length,6),cardW=174,cardGap=12,cardStart=(W-(cardCount*cardW+(cardCount-1)*cardGap))/2;
- let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(x[0])} – technische Schaltungsübersicht" xmlns="http://www.w3.org/2000/svg">`;
- s+=`<defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path class="gridline" d="M24 0H0V24"/></pattern><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#65d5aa"/></marker></defs><rect width="1200" height="460" fill="url(#grid)"/>`;
- s+=`<text class="title" x="42" y="40">${esc(x[0])}</text><text class="subtitle" x="42" y="64">Technische Schaltungsübersicht · ${esc(x[1])}</text>`;
- s+=`<path class="${railClass}" d="M55 106H1145"/><text class="${isTube?'danger':'label'}" x="55" y="96">${railLabel}</text>`;
- if(isTube)s+=`<text class="danger" x="1145" y="96" text-anchor="end">⚠ Hochspannung</text>`;
- stages.forEach((label,i)=>{
-  const px=left+i*(bw+gap),cx=px+bw/2;
-  if(i){const prev=left+(i-1)*(bw+gap)+bw;s+=`<path class="signal" marker-end="url(#arrow)" d="M${prev+5} ${y+bh/2}H${px-8}"/>`;}
-  s+=`<rect class="stage" x="${px}" y="${y}" width="${bw}" height="${bh}" rx="14"/>`;
-  s+=stageText(label,cx,y+40);
-  const p=parts[i%Math.max(1,parts.length)]||'';
-  if(p)s+=`<text class="stageSub" x="${cx}" y="${y+76}" text-anchor="middle">${esc(shorten(p,26))}</text>`;
-  if(type==='pedal'||type==='amp')s+=`<path class="rail" d="M${cx} 106V${y}"/>`;
-  if(type==='wiring')s+=`<path class="ground" d="M${cx} ${y+bh}V304"/>`;
- });
- if(stages.some(v=>/feedback/i.test(v))&&stages.length>2){
-  const fi=stages.findIndex(v=>/feedback/i.test(v));const from=left+fi*(bw+gap)+bw/2,to=left+Math.max(0,fi-2)*(bw+gap)+bw/2;
-  s+=`<path class="branch" marker-end="url(#arrow)" d="M${from} ${y+bh}V315H${to}V${y+bh+3}"/><text class="label" x="${(from+to)/2}" y="335" text-anchor="middle">Rückkopplung</text>`;
- }
- if(type==='wiring')s+=`<path class="ground" d="M55 304H1145"/><text class="label" x="55" y="326">Masse / Shield</text>`;
- if(type==='pickup'){
-  s+=`<path class="ground" d="M55 304H1145"/><text class="label" x="55" y="326">Magnetischer Aufbau / Wicklung</text>`;
-  for(let i=0;i<6;i++){const cx=450+i*58;s+=`<circle cx="${cx}" cy="304" r="11" fill="#202b35" stroke="#ffb36b"/><path d="M${cx-15} 344Q${cx} 324 ${cx+15} 344Q${cx} 364 ${cx-15} 344" fill="none" stroke="#65d5aa" stroke-width="2"/>`;}
- }
- if(cardCount){
-  s+=`<text class="label" x="42" y="377">Kernkomponenten / Materialgruppen</text>`;
-  parts.slice(0,cardCount).forEach((p,i)=>{const px=cardStart+i*(cardW+cardGap);s+=`<rect class="componentCard" x="${px}" y="392" width="${cardW}" height="42" rx="8"/><text class="legend" x="${px+cardW/2}" y="417" text-anchor="middle">${esc(shorten(p,27))}</text>`;});
- }
- s+=`<circle cx="42" cy="450" r="4" fill="#65d5aa"/><text class="legend" x="53" y="454">Signalpfad</text><line x1="135" y1="450" x2="161" y2="450" class="rail"/><text class="legend" x="170" y="454">Versorgung / Verbindung</text>`;
- if(isTube)s+=`<line x1="345" y1="450" x2="371" y2="450" class="hvrail"/><text class="legend" x="380" y="454">Hochspannung</text>`;
- return s+'</svg>';
-}
-function bomRows(s){return s.split(';').map(v=>`<tr><td>${esc(v.trim())}</td></tr>`).join('')}
-function waveform(){
- let out='M0 45C10 20 23 16 34 29S57 72 72 58S96 16 111 31S137 72 150 45';
- if(type==='wiring'||type==='pickup')out='M0 45C12 12 25 12 37 45S62 78 75 45S100 12 112 45S137 78 150 45';
- if(type==='amp')out='M0 45C10 10 25 10 36 28L43 28C50 30 52 39 55 45C64 70 72 75 82 68C94 60 98 50 102 42C110 19 123 11 135 22C142 29 146 38 150 45';
- return `<svg class="wave" viewBox="0 0 150 90" role="img" aria-label="Signalform vor und nach der Schaltung"><line class="axis" x1="0" y1="45" x2="150" y2="45"/><path class="in" d="M0 45C12 12 25 12 37 45S62 78 75 45S100 12 112 45S137 78 150 45"/><path class="out" d="${out}"/></svg>`;
-}
-function icon(){
- if(type==='pickup')return `<svg class="icon" viewBox="0 0 120 100"><rect x="15" y="31" width="90" height="38" rx="8" fill="#6e6d79"/>${[30,42,54,66,78,90].map(cx=>`<circle cx="${cx}" cy="50" r="4" fill="#ddd"/>`).join('')}</svg>`;
- if(type==='amp')return `<svg class="icon" viewBox="0 0 120 100"><rect x="10" y="18" width="100" height="66" rx="8" fill="#353c44"/><rect x="18" y="26" width="84" height="15" rx="3" fill="#161b20"/><circle cx="60" cy="63" r="18" fill="#161b20" stroke="#77838e"/></svg>`;
- return `<svg class="icon" viewBox="0 0 120 100"><rect x="18" y="12" width="84" height="74" rx="10" fill="#35404a"/><circle cx="42" cy="35" r="8" fill="#111820"/><circle cx="78" cy="35" r="8" fill="#111820"/><circle cx="60" cy="67" r="9" fill="#d6dde1"/></svg>`;
-}
-const content=document.getElementById('content');
-content.innerHTML=`<div class="detail-top"><div><span class="ey">${esc(x[1])}</span><h1>${esc(x[0])}</h1><p class="lead">${esc(x[2])}</p></div><div class="bigvis">${icon()}${waveform()}</div></div><div class="boxes"><div class="box full"><h3>Schaltungsübersicht</h3><div class="schem">${schematic(x[3])}</div><p class="internal-note">Tippe auf den Plan für die große, zoombare Ansicht. Der Plan liegt direkt in diesem Projekt und öffnet keine externe Website.</p></div><div class="box full"><h3>Materialliste</h3><table class="bom"><tbody>${bomRows(x[4])}</tbody></table></div><div class="box"><h3>Kostenüberschlag</h3><div class="cost">${esc(x[5])}</div><p>Grobe DIY-Spanne, abhängig von Händler, Gehäuse, Trafos, Röhren und vorhandenen Teilen.</p></div><div class="box"><h3>Bauhinweise</h3><p>${esc(x[6])}</p></div><div class="box full"><h3>Beschreibung / Aufbau</h3><p>${esc(x[2])}</p><p><b>Signalweg:</b> ${x[3].split('|').map(esc).join(' → ')}</p></div></div>`;
-})();
-</script>
-<script src="schematic-lightbox.js"></script>
+<script src="detail-data.js?v=3"></script>
+<script src="schematic-renderer.js?v=3"></script>
+<script src="fuzzface-schematic-v2.js?v=3"></script>
+<script src="detail-page-v2.js?v=3"></script>
+<script src="schematic-viewer-v3.js?v=3"></script>
 </body>
 </html>
