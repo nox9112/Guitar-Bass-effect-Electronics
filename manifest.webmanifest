@@ -1,0 +1,33 @@
+{
+  "name": "ToneForge Workshop · Guitar & Bass Electronics",
+  "short_name": "ToneForge",
+  "description": "Offline-Werkstatt für Effektpedale, Gitarren-/Bass-Elektronik, Schaltpläne, Stücklisten, Baufortschritt und Teilelager.",
+  "lang": "de",
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#080b0f",
+  "theme_color": "#090c10",
+  "categories": ["education", "utilities", "productivity", "music"],
+  "icons": [
+    {"src":"./app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}
+  ],
+  "shortcuts": [
+    {"name":"Pedale","short_name":"Pedale","url":"./index.html#pedals"},
+    {"name":"Schaltungen","short_name":"Wiring","url":"./index.html#wiring"},
+    {"name":"Teilelager","short_name":"Teile","url":"./index.html#inventory"},
+    {"name":"Workspace","short_name":"Backup","url":"./index.html#workspace"}
+  ],
+  "share_target": {
+    "action": "./index.html?shared=1",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {"title":"title","text":"text","url":"url"}
+  },
+  "file_handlers": [
+    {"action":"./index.html#workspace","accept":{"application/json":[".json"]}}
+  ]
+}
