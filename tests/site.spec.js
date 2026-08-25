@@ -45,10 +45,43 @@ for(const [type,ids] of Object.entries(detailIds)){
  }
 }
 
+test('Fuzz Face is a component schematic, not a block diagram',async({page})=>{
+ await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+ await expect(page.locator('.true-schematic[data-schematic-kind="component"]')).toHaveCount(1);
+ await expect(page.locator('.schem [data-component]')).toHaveCount(14);
+ for(const id of ['C1','Q1','R1','R4','Q2','R2','R3','C3','VR1','C2','VR2'])await expect(page.locator(`.schem [data-component="${id}"]`)).toHaveCount(1);
+ await expect(page.locator('.schem')).toContainText('33 kΩ');
+ await expect(page.locator('.schem')).toContainText('100 kΩ feedback');
+ await expect(page.locator('.schem')).toContainText('8.2 kΩ');
+ await expect(page.locator('.schem')).toContainText('500 kΩ A');
+});
+
+test('component build status marks overlay only and persists after reload',async({page})=>{
+ await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+ await page.evaluate(()=>localStorage.clear());
+ await page.reload();
+ const row=page.locator('[data-component-row="R1"]');
+ await row.click();
+ await page.locator('[data-set-status="active"]').click();
+ await expect(page.locator('.schem [data-component="R1"]')).toHaveAttribute('data-status','active');
+ await expect(row.locator('.status-badge')).toHaveText('In Arbeit');
+ const symbolStrokeBefore=await page.locator('.schem [data-component="R1"] .symbol').first().evaluate(el=>getComputedStyle(el).stroke);
+ const markFill=await page.locator('.schem [data-component="R1"] .component-mark').evaluate(el=>getComputedStyle(el).fill);
+ expect(markFill).not.toBe('rgba(0, 0, 0, 0)');
+ await page.reload();
+ await expect(page.locator('.schem [data-component="R1"]')).toHaveAttribute('data-status','active');
+ const symbolStrokeAfter=await page.locator('.schem [data-component="R1"] .symbol').first().evaluate(el=>getComputedStyle(el).stroke);
+ expect(symbolStrokeAfter).toBe(symbolStrokeBefore);
+ await page.locator('[data-component-row="R1"]').click();
+ await page.locator('[data-set-status="done"]').click();
+ await expect(page.locator('.schem [data-component="R1"]')).toHaveAttribute('data-status','done');
+ await expect(page.locator('[data-component-row="R1"] .status-badge')).toHaveText('Fertig');
+});
+
 test('schematic viewer supports mouse, keyboard, zoom, fit, reset and close',async({page})=>{
  await page.goto('/detail2.html?type=pedal&id=fuzz-face');
  const preview=page.locator('.schem');
- await preview.click();
+ await preview.click({position:{x:10,y:10}});
  await expect(page.locator('.slb')).toHaveClass(/on/);
  await expect(page.locator('.slbzoom')).toBeVisible();
  const initial=await page.locator('.slbzoom').innerText();
@@ -71,13 +104,27 @@ test('schematic viewer supports mouse, keyboard, zoom, fit, reset and close',asy
  await expect(page.locator('.slb')).not.toHaveClass(/on/);
 });
 
+test('large viewer can select and mark a real component',async({page})=>{
+ await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+ await page.evaluate(()=>localStorage.clear());await page.reload();
+ await page.locator('.schem').click({position:{x:10,y:10}});
+ await page.locator('.slbcanvas [data-component="C1"]').click();
+ await expect(page.locator('.slbstatus')).toHaveClass(/on/);
+ await expect(page.locator('[data-viewer-selected]')).toContainText('C1');
+ await page.locator('.slbstatus [data-status="active"]').click();
+ await expect(page.locator('.slbcanvas [data-component="C1"]')).toHaveAttribute('data-status','active');
+ await expect(page.locator('.schem [data-component="C1"]')).toHaveAttribute('data-status','active');
+ await page.locator('.slbstatus [data-status="done"]').click();
+ await expect(page.locator('.slbcanvas [data-component="C1"]')).toHaveAttribute('data-status','done');
+});
+
 test('zoomed canvas grows its scrollable geometry instead of clipping',async({page})=>{
- await page.goto('/detail2.html?type=amp&id=jcm800-2204');
- await page.locator('.schem').click();
+ await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+ await page.locator('.schem').click({position:{x:10,y:10}});
  await page.locator('[data-act="reset"]').click();
- const before=await page.locator('.slbcanvas').boundingBox();
+ const before=await page.locator('.slbcanvas svg').boundingBox();
  for(let i=0;i<4;i++)await page.locator('[data-act="in"]').click();
- const after=await page.locator('.slbcanvas').boundingBox();
+ const after=await page.locator('.slbcanvas svg').boundingBox();
  expect(after.width).toBeGreaterThan(before.width*1.5);
  expect(after.height).toBeGreaterThan(before.height*1.5);
  const metrics=await page.locator('.slbview').evaluate(el=>({sw:el.scrollWidth,cw:el.clientWidth,sh:el.scrollHeight,ch:el.clientHeight}));
@@ -94,7 +141,7 @@ test('unknown detail fails safely',async({page})=>{
 
 test('page has no accidental horizontal overflow on phone layout',async({page},testInfo)=>{
  if(!testInfo.project.name.includes('mobile'))test.skip();
- for(const url of ['/index.html','/detail2.html?type=pedal&id=tube-screamer','/detail2.html?type=pickup&id=paf']){
+ for(const url of ['/index.html','/detail2.html?type=pedal&id=fuzz-face','/detail2.html?type=pedal&id=tube-screamer','/detail2.html?type=pickup&id=paf']){
   await page.goto(url);
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(2);
@@ -103,8 +150,8 @@ test('page has no accidental horizontal overflow on phone layout',async({page},t
 
 test('mobile schematic controls are touch sized and viewer fits viewport',async({page},testInfo)=>{
  if(!testInfo.project.name.includes('mobile'))test.skip();
- await page.goto('/detail2.html?type=wiring&id=strat-5way');
- await page.locator('.schem').click();
+ await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+ await page.locator('.schem').click({position:{x:10,y:10}});
  await expect(page.locator('.slb')).toHaveClass(/on/);
  const viewport=page.viewportSize();
  const overlay=await page.locator('.slb').boundingBox();
@@ -113,4 +160,6 @@ test('mobile schematic controls are touch sized and viewer fits viewport',async(
  for(const b of await page.locator('.slbbar button').all()){
   const r=await b.boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.width).toBeGreaterThanOrEqual(44);
  }
+ await page.locator('.slbcanvas [data-component="Q1"]').click();
+ await expect(page.locator('.slbstatus')).toHaveClass(/on/);
 });
