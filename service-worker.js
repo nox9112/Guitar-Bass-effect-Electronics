@@ -1,5 +1,5 @@
-const CACHE_NAME='toneforge-workshop-v13-online';
-const APP_SHELL=['./','./index.html','./detail2.html','./styles.css','./schematic-v2.css','./app-icon.svg','./manifest.webmanifest','./app-state.js','./library-data.js','./home-v2.js','./pwa.js','./status-migration.js','./detail-data.js','./schematic-renderer.js','./pedal-schematics.js','./wiring-schematics.js','./schematic-sources.js','./detail-page-v2.js','./detail-enhancements.js','./schematic-standard.js','./schematic-marker.js','./schematic-viewer-v3.js'];
+const CACHE_NAME='toneforge-workshop-v14-schematic-priority';
+const APP_SHELL=['./','./index.html','./detail2.html','./styles.css','./schematic-v2.css','./schematic-priority.css','./app-icon.svg','./manifest.webmanifest','./app-state.js','./library-data.js','./home-v2.js','./pwa.js','./status-migration.js','./detail-data.js','./schematic-renderer.js','./pedal-schematics.js','./wiring-schematics.js','./schematic-sources.js','./detail-page-v2.js','./schematic-priority.js','./detail-enhancements.js','./schematic-standard.js','./schematic-marker.js','./schematic-viewer-v3.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
