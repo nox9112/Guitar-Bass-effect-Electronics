@@ -2,17 +2,12 @@
 <html lang="de" data-page="home">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090c10">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>ToneForge Workshop · Guitar & Bass Electronics</title>
-<meta name="description" content="Offline-Werkstatt für Gitarren-, Bass- und Effekt-Elektronik mit Schaltplänen, BOM, Baufortschritt und Teilelager.">
-<link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Web-Werkstatt für Gitarren-, Bass- und Effekt-Elektronik mit Referenzschaltplänen, BOM, Bauhinweisen und Teilelager.">
 <link rel="icon" href="app-icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="app-icon.svg">
-<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
 <div class="app-shell">
@@ -26,14 +21,12 @@
       <a href="#workspace" data-nav="workspace"><span>⇄</span>Workspace</a>
     </nav>
     <div class="side-card">
-      <span class="status-dot"></span><div><b>Offline first</b><small>Fortschritt bleibt lokal</small></div>
+      <span class="status-dot"></span><div><b>Web Workspace</b><small>Daten bleiben lokal im Browser</small></div>
     </div>
-    <button class="install-button side-install" type="button" data-install-app hidden>App installieren</button>
   </aside>
 
   <div class="app-main">
     <header class="app-topbar">
-      <div class="mobile-brand"><span class="brand-mark">TF</span><b>ToneForge</b></div>
       <div class="global-search">
         <span aria-hidden="true">⌕</span>
         <input id="librarySearch" data-library-search type="search" placeholder="Pedal, Schaltung, Bauteil …" autocomplete="off" aria-label="Bibliothek durchsuchen">
@@ -42,22 +35,21 @@
       </div>
       <div class="top-actions">
         <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln" title="Darstellung wechseln">◐</button>
-        <button class="profile-chip" type="button" data-open-command><span>⚡</span><span>Werkstatt</span></button>
       </div>
     </header>
 
     <main class="content">
       <section id="dashboard" class="hero-dashboard">
         <div class="hero-copy">
-          <span class="ey">Guitar · Bass · Effects · Electronics</span>
-          <h1>Deine Elektronik-Werkstatt.<br><span>Vom Schaltplan bis zum fertigen Build.</span></h1>
-          <p>Schaltpläne, Stücklisten, Gitarrenverdrahtung, Tonabnehmer, Verstärker und Werkstattbestand – offline und auf Windows wie Android nutzbar.</p>
+          <span class="ey">Guitar · Bass · Effects · Electrical Engineering</span>
+          <h1>Deine Elektronik-Werkstatt.<br><span>Der Schaltplan hat Priorität.</span></h1>
+          <p>Referenzschaltpläne, Stücklisten, Gitarrenverdrahtung, Tonabnehmer, Verstärker und Werkstattbestand – übersichtlich im Browser.</p>
           <div class="hero-actions"><a class="primary-btn" href="#library">Bibliothek öffnen</a><button class="ghost-btn" type="button" data-random-project>Projekt entdecken</button></div>
         </div>
         <div class="signal-card" aria-hidden="true">
-          <div class="signal-head"><span>LIVE SIGNAL</span><i></i></div>
+          <div class="signal-head"><span>SIGNAL FLOW</span><i></i></div>
           <svg viewBox="0 0 560 180" class="hero-wave"><defs><linearGradient id="wg" x1="0" x2="1"><stop stop-color="#5fe0af"/><stop offset="1" stop-color="#7ea3ff"/></linearGradient></defs><path d="M0 90 C25 16 55 16 80 90 S135 164 160 90 S215 16 240 90 S295 164 320 90 S375 16 400 90 S455 164 480 90 S535 16 560 90"/><path class="wave-echo" d="M0 90 C35 40 65 40 95 90 S155 140 185 90 S245 40 275 90 S335 140 365 90 S425 40 455 90 S525 140 560 90"/></svg>
-          <div class="signal-meta"><span><b>INPUT</b>−12.4 dB</span><span><b>CHAIN</b>4 stages</span><span><b>OUTPUT</b>−6.1 dB</span></div>
+          <div class="signal-meta"><span><b>PRIMARY</b>Schaltplan</span><span><b>SECONDARY</b>Signalfluss</span><span><b>CHECK</b>BOM / Revision</span></div>
         </div>
       </section>
 
@@ -84,32 +76,24 @@
       </section>
 
       <section id="inventory" class="section inventory-zone">
-        <div class="section-head"><div><span class="ey">Workshop stock</span><h2>Common electrical components</h2><p>Dein lokales Teilelager. Mengen werden nur auf diesem Gerät gespeichert.</p></div><span class="count" data-inventory-total></span></div>
+        <div class="section-head"><div><span class="ey">Workshop stock</span><h2>Common electrical components</h2><p>Dein lokales Teilelager. Mengen werden im Browser gespeichert.</p></div><span class="count" data-inventory-total></span></div>
         <div class="component-list" id="components" data-component-list></div>
       </section>
 
       <section id="workspace" class="section workspace-zone">
-        <div class="section-head"><div><span class="ey">Backup & transfer</span><h2>Workspace</h2><p>Favoriten, Notizen, Teilelager und Baufortschritt zwischen Windows und Android übertragen.</p></div></div>
+        <div class="section-head"><div><span class="ey">Backup</span><h2>Workspace</h2><p>Favoriten, Notizen, Teilelager und Fortschritt als Datei sichern oder auf einem anderen Browser wiederherstellen.</p></div></div>
         <div class="workspace-grid">
-          <article class="workspace-card"><span class="workspace-icon">↓</span><div><h3>Backup exportieren</h3><p>Speichert deinen kompletten lokalen Workspace als JSON-Datei.</p></div><button class="ghost-btn" type="button" data-export-workspace>Exportieren</button></article>
+          <article class="workspace-card"><span class="workspace-icon">↓</span><div><h3>Backup exportieren</h3><p>Speichert deinen lokalen Workspace als JSON-Datei.</p></div><button class="ghost-btn" type="button" data-export-workspace>Exportieren</button></article>
           <article class="workspace-card"><span class="workspace-icon">↑</span><div><h3>Backup importieren</h3><p>Stellt Workspace-Daten aus einer zuvor exportierten Datei wieder her.</p></div><button class="ghost-btn" type="button" data-import-workspace>Datei wählen</button><input type="file" accept="application/json,.json" data-import-file hidden></article>
-          <article class="workspace-card"><span class="workspace-icon">↗</span><div><h3>Auf Android teilen</h3><p>Nutzt das native Teilen-Menü, wenn dein Gerät es unterstützt.</p></div><button class="ghost-btn" type="button" data-share-app>App teilen</button></article>
         </div>
       </section>
     </main>
   </div>
 </div>
 
-<nav class="mobile-nav" aria-label="Mobile Navigation">
-  <a href="#dashboard" class="active"><span>⌂</span>Home</a><a href="#library"><span>◫</span>Library</a><a href="#favorites"><span>★</span>Favoriten</a><a href="#inventory"><span>▦</span>Teile</a><button type="button" data-mobile-more><span>•••</span>Mehr</button>
-</nav>
-
-<div class="command-sheet" data-command-sheet aria-hidden="true"><div class="sheet-backdrop" data-sheet-close></div><div class="sheet-panel"><div class="sheet-grabber"></div><div class="sheet-head"><div><span class="ey">Quick actions</span><h2>Werkstatt</h2></div><button class="icon-button" data-sheet-close aria-label="Schließen">×</button></div><div class="quick-grid"><a href="#workspace">⇄ <span>Backup & Transfer</span></a><button type="button" data-install-app>＋ <span>App installieren</span></button><button type="button" data-share-app>↗ <span>App teilen</span></button><button type="button" data-theme-toggle>◐ <span>Darstellung</span></button></div></div></div>
-
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script src="app-state.js?v=1"></script>
 <script src="library-data.js?v=1"></script>
-<script src="home-v2.js?v=1"></script>
-<script src="pwa.js?v=3"></script>
+<script src="home-v2.js?v=2"></script>
 </body>
 </html>
