@@ -10,6 +10,8 @@ window.ToneForgeMedia={
   'pedal:chorus':{photo:'https://monteallums.com/wordpress/wp-content/uploads/2023/09/CE-2_Web.jpg',source:'https://monteallums.com/wordpress/product/boss-ce-2-ce-2b-diy-pedal-mod-kits/',credit:'Monte Allums · Boss CE-2 reference'},
   'pedal:distortion-plus':{photo:'https://www.truetonemusic.com/cdn/shop/files/1-Img5904_700x700.jpg?v=1713816743',source:'https://www.truetonemusic.com/products/used-mxr-distortion-plus-pedal-with-box',credit:'Truetone Music · MXR Distortion+'},
   'pedal:vox-v847':{photo:'https://cdn.sanity.io/images/5skqgt41/production/2a6d029d229e836ab8fe8f7ae8ee86e5f8b51d4b-1000x1000.jpg?auto=format',source:'https://www.mannys.com.au/products/vox-v847-wah-pedal',credit:'Mannys · Vox V847'},
+  'pedal:boss-ds1':{photo:'https://static.roland.com/products/ds-1/images/ds-1_top.png',source:'https://www.boss.info/GLOBAL/products/ds-1/',credit:'BOSS · DS-1 Distortion'},
+  'pedal:sd1':{photo:'https://static.roland.com/products/sd-1-4a/images/sd-1_top.png',source:'https://www.boss.info/de/products/sd-1/',credit:'BOSS · SD-1 Super OverDrive'},
   'pedal:micro-amp':{photo:'https://cdn11.bigcommerce.com/s-n26aknlnlm/images/stencil/1280x1280/products/2064/10730/M133.MAIN__39765.1701991028.jpg?c=2',source:'https://www.jimdunlop.com/mxr-micro-amp-parts/',credit:'Jim Dunlop · MXR Micro Amp'}
 };
 })();
