@@ -15,7 +15,7 @@ P['pedal:orange-squeezer']=[
  {label:'Dan Armstrong Orange Squeezer · Original reference',standard:'ANSI',revision:'Original circuit reference · GGG scan/redraw',image:'',source:'https://generalguitargadgets.com/pdf/ggg_osq_sc_original.pdf',publisher:'General Guitar Gadgets',trust:'reference',review:'source-found',checked,note:'Originalschaltung als Gegenreferenz; ToneForge hostet keine Kopie.'}
 ];
 P['pedal:noise-gate']=[
- {label:'MXR M-106 Noise Gate · corrected schematic discussion',standard:'ANSI',revision:'M-106 corrected reference · PCB-photo crosscheck',image:'',source:'https://www.diystompboxes.com/smfforum/index.php?topic=122689.0',publisher:'DIYStompboxes · Rob Strand',trust:'established-diy',review:'source-found',checked,note:'Korrigierte M-106-Referenz. Der Autor beschreibt den Abgleich gegen Fotos originaler MXR-PCBs und weist ausdrücklich auf Fehler in älteren verbreiteten Schaltplänen hin. ToneForge-BOM bleibt bis zum eigenen 1:1-Abgleich gesperrt.'},
+ {label:'MXR M-106 Noise Gate · corrected schematic discussion',standard:'ANSI',revision:'M-106 corrected reference · PCB-photo crosscheck · BOM-Abgleich offen',image:'',source:'https://www.diystompboxes.com/smfforum/index.php?topic=122689.0',publisher:'DIYStompboxes · Rob Strand',trust:'established-diy',review:'source-found',checked,note:'Korrigierte M-106-Referenz. Der Autor beschreibt den Abgleich gegen Fotos originaler MXR-PCBs und weist ausdrücklich auf Fehler in älteren verbreiteten Schaltplänen hin. BOM-Abgleich offen: ToneForge friert keine Bauteilwerte ein, bevor diese korrigierte Referenz netzweise geprüft ist.'},
  {label:'MXR Noise Gate · verified perf/PCB layout reference',standard:'ANSI',revision:'Effects Layouts · 2016 · based on corrected FSB work',image:'',source:'https://effectslayouts.blogspot.com/2016/03/mxr-noise-gate.html',publisher:'Effects Layouts',trust:'reference',review:'source-found',checked,note:'Sekundäre Layout-Referenz auf Basis der korrigierten Community-Schaltung und des originalen MXR-Layouts. Nicht als alleinige Build-Freigabe verwenden.'}
 ];
 P['pedal:envelope-filter']=[
@@ -41,4 +41,15 @@ for(const [key,name] of Object.entries(rename)){
  const row=window.GBE_DATA?.[key]; if(row)row[0]=name;
  const item=window.ToneForgeLibrary?.all?.find(x=>x.key===key); if(item)item.name=name;
 }
+const ng=window.GBE_DATA?.['pedal:noise-gate'];
+if(ng){
+ ng[2]='Klassisches MXR-M-106-Noise-Gate als technisches Ziel. Der Hüllkurvendetektor steuert die Gain-/Mute-Stufe; mehrere ältere im Netz verbreitete Schaltpläne enthalten dokumentierte Fehler.';
+ ng[3]='Input / Detector|Threshold|Control / Gate|Output';
+ ng[4]='BOM NOCH NICHT EINGEFROREN. Die bisherige generische JFET-Gate-Stückliste ist gesperrt. Bauteilwerte werden erst nach netzweitem 1:1-Abgleich der korrigierten M-106-Schaltung mit der zweiten Layout-/PCB-Referenz freigegeben.';
+ ng[6]='Noch nicht build-ready. Vor dem Aufbau müssen Schaltplan, PCB-Foto/Original-Layout, Transistor-/JFET-Pinouts, Threshold-Regelbereich sowie Versorgung/Masse netzweise gegengeprüft werden.';
+ ng[7]='Korrigierte MXR-M-106-Referenz von Rob Strand/DIYStompboxes plus Effects-Layouts-Gegenreferenz. Frühere PCB-Guitar-Mania-Basis aus ToneForge entfernt.';
+ ng[8]='MXR M-106 · korrigierte Referenz · BOM-Abgleich offen';
+}
+const ngItem=window.ToneForgeLibrary?.all?.find(x=>x.key==='pedal:noise-gate');
+if(ngItem)ngItem.meta='Korrigierte M-106-Referenz · BOM-Abgleich offen';
 })();
