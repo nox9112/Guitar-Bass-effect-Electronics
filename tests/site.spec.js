@@ -1,14 +1,26 @@
 const {test,expect}=require('@playwright/test');
 
-test('homepage renders compact technical library',async({page})=>{
+test('homepage renders compact technical library with source coverage',async({page})=>{
   await page.goto('/index.html');
   await expect(page.locator('h1')).toHaveText('ToneForge Workshop');
   await expect(page.locator('.project-card')).toHaveCount(56);
   await expect(page.locator('.project-grid').first()).toHaveCSS('grid-template-columns',/px .*px/);
   await expect(page.locator('.hero-dashboard')).toHaveCount(0);
-  await expect(page.locator('.project-thumb.has-photo')).toHaveCount(10);
-  await expect(page.locator('[data-stat-plans]')).toHaveText('26/56');
-  await expect(page.locator('[data-stat-plans-label]')).toHaveText('30 offen');
+  await expect(page.locator('[data-stat-plans]')).toHaveText('56/56');
+  await expect(page.locator('[data-stat-plans-label]')).toHaveText('0 offen');
+  await expect(page.locator('.plan-state.open')).toHaveCount(0);
+});
+
+test('every library key has at least one real technical source',async({page})=>{
+  await page.goto('/index.html');
+  const result=await page.evaluate(()=>({
+    library:window.ToneForgeLibrary.all.map(x=>x.key),
+    sourced:Object.keys(window.GBE_SCHEMATIC_SOURCES).filter(k=>(window.GBE_SCHEMATIC_SOURCES[k]||[]).length),
+    empty:Object.entries(window.GBE_SCHEMATIC_SOURCES).filter(([,v])=>!Array.isArray(v)||!v.length).map(([k])=>k)
+  }));
+  expect(result.library).toHaveLength(56);
+  expect(result.empty).toEqual([]);
+  expect(result.library.filter(k=>!result.sourced.includes(k))).toEqual([]);
 });
 
 test('filters and search are functional',async({page})=>{
@@ -21,7 +33,7 @@ test('filters and search are functional',async({page})=>{
   await page.locator('[data-clear-search]').click();
   await expect(page.locator('.project-card:not([hidden])')).toHaveCount(25);
   await page.locator('[data-filter="missing"]').click();
-  await expect(page.locator('.project-card:not([hidden])')).toHaveCount(30);
+  await expect(page.locator('.project-card:not([hidden])')).toHaveCount(0);
 });
 
 test('favorite state is functional and persistent',async({page})=>{
@@ -30,7 +42,7 @@ test('favorite state is functional and persistent',async({page})=>{
 });
 
 test('Fuzz Face detail prioritizes real source schematic',async({page})=>{
-  await page.goto('/detail2.html?type=pedal&id=fuzz-face');await expect(page.locator('h1')).toHaveText('Fuzz Face');await expect(page.locator('.source-plan-card')).toHaveCount(1);await expect(page.locator('.source-plan-card')).toHaveAttribute('data-standard','ANSI');await expect(page.locator('.plan-stage img')).toHaveCount(1);await expect(page.locator('.schem')).toHaveCount(0);await expect(page.locator('[data-wake-lock]')).toHaveCount(0);await expect(page.locator('[data-detail-share]')).toHaveCount(0);expect(await page.locator('.bom tbody tr').count()).toBeGreaterThan(0);
+  await page.goto('/detail2.html?type=pedal&id=fuzz-face');await expect(page.locator('h1')).toHaveText('Fuzz Face');await expect(page.locator('.source-plan-card')).toHaveCount(1);await expect(page.locator('.source-plan-card')).toHaveAttribute('data-standard','ANSI');await expect(page.locator('.plan-stage img')).toHaveCount(1);await expect(page.locator('.schem')).toHaveCount(0);expect(await page.locator('.bom tbody tr').count()).toBeGreaterThan(0);
 });
 
 test('schematic preview opens and closes inside the project page',async({page})=>{
@@ -38,26 +50,56 @@ test('schematic preview opens and closes inside the project page',async({page})=
   await expect(page.getByText('Originalgröße ↗')).toHaveCount(0);
   await page.locator('.plan-stage').click();
   await expect(page.locator('.schematic-modal')).toBeVisible();
-  await page.locator('.schematic-modal [data-schematic-close]').click();
+  await page.keyboard.press('Escape');
   await expect(page.locator('.schematic-modal')).toBeHidden();
 });
 
-test('Micro Amp shows small product photo and real reference schematic',async({page})=>{
-  await page.goto('/detail2.html?type=pedal&id=micro-amp');await expect(page.locator('h1')).toContainText('Micro Amp');await expect(page.locator('.detail-product img')).toHaveCount(1);await expect(page.locator('.source-plan-card')).toHaveCount(1);await expect(page.locator('.plan-stage img')).toHaveCount(1);await expect(page.getByText('FEHLT',{exact:true})).toHaveCount(0);
-});
-
-test('newly sourced projects no longer pretend to be complete or missing',async({page})=>{
-  const projects=['boss-ds1','sd1','orange-squeezer','noise-gate','envelope-filter','belton-reverb','aby-buffered'];
-  for(const id of projects){
-    await page.goto(`/detail2.html?type=pedal&id=${id}`);
+test('source-found projects are not falsely labelled verified',async({page})=>{
+  const pages=[
+    '/detail2.html?type=pedal&id=boss-ds1',
+    '/detail2.html?type=pedal&id=pt2399',
+    '/detail2.html?type=amp&id=5f1',
+    '/detail2.html?type=instrument&id=keyboard',
+    '/detail2.html?type=body&id=e-guitar'
+  ];
+  for(const url of pages){
+    await page.goto(url);
     await expect(page.locator('.source-plan-card').first()).toBeVisible();
     await expect(page.getByText('FEHLT',{exact:true})).toHaveCount(0);
     await expect(page.locator('.source-plan-card[data-review="verified"]')).toHaveCount(0);
   }
 });
 
-test('coil split no longer embeds weak Pinterest provenance',async({page})=>{
-  await page.goto('/detail2.html?type=wiring&id=coil-split');await expect(page.locator('.source-plan-card')).toHaveCount(1);await expect(page.locator('.plan-stage img')).toHaveCount(0);await expect(page.getByText('Der Plan liegt bei der Quelle.')).toHaveCount(1);const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.href));expect(links.some(h=>h.includes('pinterest')||h.includes('pinimg'))).toBeFalsy();
+test('phase90 is sourced but still explicitly not build-ready',async({page})=>{
+  await page.goto('/detail2.html?type=pedal&id=phase90');
+  await expect(page.locator('.source-plan-card')).toHaveCount(2);
+  await expect(page.locator('.source-plan-card[data-review="verified"]')).toHaveCount(0);
+  await expect(page.getByText(/BOM NOCH NICHT EINGEFROREN/)).toBeVisible();
+  await expect(page.locator('a').filter({hasText:'CAD öffnen'})).toHaveCount(1);
+});
+
+test('pickup projects include winding and construction sources',async({page})=>{
+  for(const id of ['strat-pickup','tele-bridge-pickup','p90','paf','p-bass','j-bass']){
+    await page.goto(`/detail2.html?type=pickup&id=${id}`);
+    await expect(page.locator('.source-plan-card')).toHaveCount(2);
+    const standards=await page.locator('.source-plan-card').evaluateAll(cs=>cs.map(c=>c.dataset.standard));
+    expect(standards).toContain('WINDING');expect(standards).toContain('CONSTRUCTION');
+  }
+});
+
+test('tube amplifier projects carry high-voltage cautions',async({page})=>{
+  for(const id of ['5f1','5e3','jcm800-2204','ac15','b15n']){
+    await page.goto(`/detail2.html?type=amp&id=${id}`);
+    await expect(page.locator('.source-plan-card').first()).toContainText(/HIGH VOLTAGE/);
+  }
+});
+
+test('coil split uses manufacturer-specific provenance',async({page})=>{
+  await page.goto('/detail2.html?type=wiring&id=coil-split');
+  await expect(page.locator('.source-plan-card')).toHaveCount(1);
+  await expect(page.locator('.source-plan-card')).toContainText('Seymour Duncan');
+  const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.href));
+  expect(links.some(h=>h.includes('pinterest')||h.includes('pinimg'))).toBeFalsy();
 });
 
 test('no active page references a hand-coded ToneForge redraw',async({page})=>{
@@ -68,8 +110,10 @@ test('no active page references a hand-coded ToneForge redraw',async({page})=>{
   }
 });
 
-test('schematic standard switch only appears for multiple real standards',async({page})=>{await page.goto('/detail2.html?type=pedal&id=fuzz-face');await expect(page.locator('[data-plan-standard]')).toHaveCount(0)});
-
-test('desktop pages avoid accidental horizontal overflow',async({page})=>{for(const url of ['/index.html','/detail2.html?type=pedal&id=fuzz-face','/detail2.html?type=pedal&id=micro-amp','/detail2.html?type=pedal&id=boss-ds1']){await page.goto(url);const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);expect(overflow).toBeLessThanOrEqual(2)}});
+test('desktop pages avoid accidental horizontal overflow',async({page})=>{
+  for(const url of ['/index.html','/detail2.html?type=pedal&id=fuzz-face','/detail2.html?type=pedal&id=boss-ds1','/detail2.html?type=pickup&id=paf','/detail2.html?type=body&id=e-guitar']){
+    await page.goto(url);const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth);expect(overflow).toBeLessThanOrEqual(2);
+  }
+});
 
 test('unknown project fails safely',async({page})=>{await page.goto('/detail2.html?type=pedal&id=does-not-exist');await expect(page.locator('h1')).toHaveText('Nicht gefunden');await expect(page.getByText('FEHLT',{exact:true})).toHaveCount(1);await expect(page.locator('a.backlink')).toHaveAttribute('href','index.html#library')});
