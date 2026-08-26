@@ -16,7 +16,7 @@ test('pedal media uses stable current sources',async({page})=>{
   const media=await page.evaluate(()=>window.ToneForgeMedia);
   expect(Object.keys(media).length).toBeGreaterThanOrEqual(12);
   expect(media['pedal:phase90'].photo).toContain('cdn11.bigcommerce.com');
-  expect(media['pedal:phase90'].source).toContain('jimDunlop'.toLowerCase().replace('d','d'));
+  expect(media['pedal:phase90'].source).toContain('jimdunlop.com');
   expect(media['pedal:phase90'].photo).not.toContain('chicagomusicexchange');
   expect(media['pedal:boss-ds1'].photo).toContain('static.roland.com');
   expect(media['pedal:sd1'].photo).toContain('static.roland.com');
