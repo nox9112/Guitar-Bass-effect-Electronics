@@ -11,6 +11,17 @@ test('homepage renders compact technical library with source coverage',async({pa
   await expect(page.locator('.plan-state.open')).toHaveCount(0);
 });
 
+test('pedal media uses stable current sources',async({page})=>{
+  await page.goto('/index.html');
+  const media=await page.evaluate(()=>window.ToneForgeMedia);
+  expect(Object.keys(media).length).toBeGreaterThanOrEqual(12);
+  expect(media['pedal:phase90'].photo).toContain('cdn11.bigcommerce.com');
+  expect(media['pedal:phase90'].source).toContain('jimDunlop'.toLowerCase().replace('d','d'));
+  expect(media['pedal:phase90'].photo).not.toContain('chicagomusicexchange');
+  expect(media['pedal:boss-ds1'].photo).toContain('static.roland.com');
+  expect(media['pedal:sd1'].photo).toContain('static.roland.com');
+});
+
 test('every library key has at least one real technical source',async({page})=>{
   await page.goto('/index.html');
   const result=await page.evaluate(()=>({
