@@ -31,4 +31,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# Publish trigger: 2026-08-26 CAD-source schematic cleanup
+# Publish trigger: 2026-08-26 full schematic audit
