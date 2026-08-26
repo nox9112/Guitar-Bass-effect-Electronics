@@ -1,6 +1,7 @@
 (()=>{
 'use strict';
 const P=window.GBE_SCHEMATIC_SOURCES||(window.GBE_SCHEMATIC_SOURCES={});
+const D=window.GBE_DATA||(window.GBE_DATA={});
 const checked='2026-08-26';
 P['pedal:volume-passive']=[
  {label:'Passive Volume · variable voltage divider',standard:'ANSI',revision:'high-impedance passive guitar signal',image:'',source:'https://stompboxelectronics.com/2022/11/08/circuit-3-of-48-the-voltage-divider/',publisher:'Stompbox Electronics',trust:'established-diy',review:'crosschecked',checked,note:'The source explicitly shows passive volume as a potentiometer used as a variable AC voltage divider: input at the top terminal, ground at the bottom, output from the wiper.'},
@@ -14,14 +15,17 @@ P['pedal:talkbox']=[
  {label:'Heil Sound HT-1 Talk Box · inspected schematic',standard:'ANSI',revision:'HT-1 inspected 1992 · drawing rev 2000-07-12',image:'',source:'https://schematicheaven.net/effects/ggg_heil_talkbox_ht1.pdf',publisher:'JD Sleep / Guitar Effects Projects archive',trust:'reference',review:'crosschecked',checked,note:'Classic speaker-level topology: heavy-duty SPDT routing, 15µF 50V non-polarized capacitor and high-frequency compression driver. The document explicitly forbids rehosting, so ToneForge links only to it.'},
  {label:'Heil HT-1 · official operating configuration',standard:'REFERENCE',revision:'Jim Dunlop HT-1 manual',image:'',source:'https://www.jimdunlop.com/content/manuals/HT-1.pdf',publisher:'Dunlop Manufacturing / Heil Sound',trust:'manufacturer',review:'crosschecked',checked,note:'Official manual confirms the Talk Box is driven from an amplifier SPEAKER OUTPUT, is an 8-ohm load rated 100W max / 50W RMS, and requires speaker cable. ToneForge therefore treats this as a classic external-amplifier talkbox, not a pedal with an invented internal power amp.'}
 ];
+if(!D['pedal:talkbox'])D['pedal:talkbox']=[
+ 'Heil HT-1 Style Talk Box · External Amp','Talk Box / Speaker-Level','Klassische speaker-level Talkbox: der Lautsprecherausgang eines externen Verstärkers treibt einen Kompressionstreiber, dessen Schall über einen Schlauch in den Mund geführt und anschließend mit einem Mikrofon/PA abgenommen wird.','Amp Speaker Out|SPDT Routing|15µF NP Protection|Compression Driver|Tube|Microphone / PA','8-Ω-Hochfrequenz-Kompressionstreiber passend zur HT-1-Referenz; Heavy-Duty-SPDT-Routing-Schalter; 15µF 50V bipolarer/nichtpolarisierter Kondensator; Lautsprecherkabel; Talkbox-Schlauch/Mundstück; stabiles Gehäuse; externes Mikrofon/PA','Quelle prüfen','Nur an einem geeigneten Lautsprecherausgang mit korrekter Last und Leistung betreiben. Offizielles HT-1-Limit: 100 W max / 50 W RMS an 8 Ω. Schweres Lautsprecherkabel verwenden, kein normales Gitarrenkabel. Verstärker-Ausgang und Routing niemals offen/fehlangepasst betreiben.','Heil-HT-1-Schaltplanreferenz plus offizielles Jim-Dunlop/Heil-Manual. Externer Verstärker ist Teil der klassischen Topologie; kein interner Power-Amp erfunden.','Heil HT-1 Referenz · externer Verstärker'
+];
 const names={
  'pedal:volume-passive':'Passive Volume · 250K',
  'pedal:sample-trigger':'Adafruit Audio FX Sample Trigger',
  'pedal:talkbox':'Heil HT-1 Style Talk Box · External Amp'
 };
 for(const [key,name] of Object.entries(names)){
- const row=window.GBE_DATA?.[key];if(row)row[0]=name;
+ const row=D[key];if(row)row[0]=name;
  const item=window.ToneForgeLibrary?.all?.find(x=>x.key===key);if(item)item.name=name;
 }
-const talk=window.GBE_DATA?.['pedal:talkbox'];if(talk){talk[2]='Klassische speaker-level Talkbox: der Lautsprecherausgang eines externen Verstärkers treibt einen Kompressionstreiber, dessen Schall über einen Schlauch in den Mund geführt und mit einem Mikrofon abgenommen wird.';talk[3]='Amp Speaker Out|SPDT Routing|15µF NP Protection|Compression Driver|Tube|Microphone / PA';talk[6]='Nur an einem geeigneten Lautsprecherausgang mit korrekter Last/Leistung betreiben. Schweres Lautsprecherkabel verwenden, kein normales Gitarrenkabel. Verstärker- und PA-Erdung sowie maximale Treiberleistung prüfen.';talk[8]='Heil HT-1 Referenz · externer Verstärker';}
+const talk=D['pedal:talkbox'];if(talk){talk[2]='Klassische speaker-level Talkbox: der Lautsprecherausgang eines externen Verstärkers treibt einen Kompressionstreiber, dessen Schall über einen Schlauch in den Mund geführt und mit einem Mikrofon abgenommen wird.';talk[3]='Amp Speaker Out|SPDT Routing|15µF NP Protection|Compression Driver|Tube|Microphone / PA';talk[6]='Nur an einem geeigneten Lautsprecherausgang mit korrekter Last/Leistung betreiben. Schweres Lautsprecherkabel verwenden, kein normales Gitarrenkabel. Verstärker- und PA-Erdung sowie maximale Treiberleistung prüfen.';talk[8]='Heil HT-1 Referenz · externer Verstärker';}
 })();
