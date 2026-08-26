@@ -11,15 +11,22 @@ test('homepage renders compact technical library with source coverage',async({pa
   await expect(page.locator('.plan-state.open')).toHaveCount(0);
 });
 
-test('pedal media uses stable current sources',async({page})=>{
+test('pedal media coverage uses current stable references',async({page})=>{
   await page.goto('/index.html');
-  const media=await page.evaluate(()=>window.ToneForgeMedia);
-  expect(Object.keys(media).length).toBeGreaterThanOrEqual(12);
-  expect(media['pedal:phase90'].photo).toContain('cdn11.bigcommerce.com');
-  expect(media['pedal:phase90'].source).toContain('jimdunlop.com');
-  expect(media['pedal:phase90'].photo).not.toContain('chicagomusicexchange');
-  expect(media['pedal:boss-ds1'].photo).toContain('static.roland.com');
-  expect(media['pedal:sd1'].photo).toContain('static.roland.com');
+  const result=await page.evaluate(()=>{
+    const media=window.ToneForgeMedia||{};
+    const pedals=window.ToneForgeLibrary.all.filter(x=>x.type==='pedal').map(x=>x.key);
+    return {media,pedals,missing:pedals.filter(k=>!media[k]?.photo)};
+  });
+  expect(result.pedals).toHaveLength(25);
+  expect(Object.keys(result.media).length).toBeGreaterThanOrEqual(24);
+  expect(result.missing.length).toBeLessThanOrEqual(1);
+  if(result.missing.length)expect(result.missing).toEqual(['pedal:noise-gate']);
+  expect(result.media['pedal:phase90'].photo).toContain('cdn11.bigcommerce.com');
+  expect(result.media['pedal:phase90'].source).toContain('jimdunlop.com');
+  expect(result.media['pedal:phase90'].photo).not.toContain('chicagomusicexchange');
+  expect(result.media['pedal:boss-ds1'].photo).toContain('static.roland.com');
+  expect(result.media['pedal:sd1'].photo).toContain('static.roland.com');
 });
 
 test('library, detail data and source registry stay aligned',async({page})=>{
@@ -116,6 +123,22 @@ test('phase90 is sourced but still explicitly not build-ready',async({page})=>{
   await expect(page.locator('.source-plan-card[data-review="verified"]')).toHaveCount(0);
   await expect(page.getByText(/BOM NOCH NICHT EINGEFROREN/)).toBeVisible();
   await expect(page.locator('a').filter({hasText:'CAD öffnen'})).toHaveCount(1);
+});
+
+test('Noise Gate uses corrected M-106 references and stays non-build-ready',async({page})=>{
+  await page.goto('/index.html');
+  const card=page.locator('[data-key="pedal:noise-gate"]');
+  await expect(card.locator('h3')).toContainText('MXR M-106 Noise Gate');
+  await expect(card.locator('.plan-state.review')).toHaveText('Prüfung offen');
+  await page.goto('/detail2.html?type=pedal&id=noise-gate');
+  await expect(page.locator('h1')).toContainText('MXR M-106 Noise Gate');
+  await expect(page.locator('.source-plan-card')).toHaveCount(2);
+  await expect(page.locator('.source-plan-card[data-review="verified"]')).toHaveCount(0);
+  await expect(page.getByText(/BOM NOCH NICHT EINGEFROREN/)).toBeVisible();
+  const html=(await page.locator('body').innerText()).toLowerCase();
+  const links=await page.locator('a[href]').evaluateAll(as=>as.map(a=>a.href.toLowerCase()));
+  expect(html).not.toContain('pcb guitar mania');
+  expect(links.some(h=>h.includes('pcbguitarmania'))).toBeFalsy();
 });
 
 test('pickup projects include winding and construction sources',async({page})=>{
