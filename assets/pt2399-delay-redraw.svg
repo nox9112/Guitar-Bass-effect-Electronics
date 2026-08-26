@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1040" role="img" aria-labelledby="title desc">
+<title id="title">Synthrotek PT2399 Delay v0.4 — ToneForge local redraw draft</title>
+<desc id="desc">Draft vector redraw of the Synthrotek PT2399 Delay v0.4 signal path, power supply, NE5532 stages and PT2399 delay network.</desc>
+<style>.bg{fill:#fff}.wire{fill:none;stroke:#111;stroke-width:2.3;stroke-linecap:square;stroke-linejoin:miter}.thin{fill:none;stroke:#111;stroke-width:1.6}.node{fill:#111}.txt{font:20px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.sm{font:16px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.xs{font:13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.head{font:700 24px system-ui,sans-serif;fill:#111}.title{font:700 28px system-ui,sans-serif;fill:#111}.warn{font:700 16px system-ui,sans-serif;fill:#8b2d2d}.box{fill:#fff;stroke:#111;stroke-width:1.7}.dash{fill:none;stroke:#666;stroke-width:1.4;stroke-dasharray:7 6}.r{fill:none;stroke:#111;stroke-width:2}.cap{stroke:#111;stroke-width:2}.ic{fill:#fff;stroke:#111;stroke-width:2}</style>
+<rect class="bg" width="1600" height="1040"/><rect x="12" y="12" width="1576" height="1016" fill="none" stroke="#111" stroke-width="2"/>
+<text class="title" x="45" y="55">PT2399 Delay · Synthrotek v0.4</text><text class="sm" x="45" y="82">ToneForge local redraw · source-aligned draft · NOT YET BUILD-READY</text>
+
+<!-- TOP SIGNAL PATH -->
+<text class="head" x="45" y="125">AUDIO / BYPASS PATH</text>
+<circle class="wire" cx="70" cy="190" r="12"/><text class="sm" x="45" y="165">IN</text><line class="wire" x1="82" y1="190" x2="145" y2="190"/>
+<rect class="box" x="145" y="165" width="70" height="50"/><text class="xs" x="158" y="195">SW1C</text><line class="wire" x1="215" y1="190" x2="275" y2="190"/>
+<line class="cap" x1="275" y1="168" x2="275" y2="212"/><line class="cap" x1="291" y1="168" x2="291" y2="212"/><line class="wire" x1="291" y1="190" x2="345" y2="190"/><text class="sm" x="252" y="150">C1 0.1µF</text>
+<path class="r" d="M345 190 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><line class="wire" x1="405" y1="190" x2="455" y2="190"/><text class="sm" x="350" y="150">R2 10k</text>
+<line class="wire" x1="330" y1="190" x2="330" y2="245"/><path class="r" d="M330 245 l-10 10 20 10 -20 10 20 10 -20 10 10 10"/><line class="wire" x1="330" y1="305" x2="330" y2="325"/><text class="sm" x="345" y="280">R1 1M</text><text class="xs" x="312" y="345">GND</text>
+
+<!-- U3A -->
+<polygon class="ic" points="455,150 455,230 535,190"/><text class="sm" x="463" y="145">U3A NE5532</text><text class="xs" x="440" y="176">−</text><text class="xs" x="440" y="218">+</text><line class="wire" x1="535" y1="190" x2="590" y2="190"/>
+<line class="wire" x1="455" y1="215" x2="430" y2="215"/><path class="r" d="M430 215 l0 10 -10 10 20 10 -20 10 20 10 -10 10"/><line class="wire" x1="430" y1="275" x2="430" y2="305"/><text class="sm" x="445" y="260">R4 1M → VREF</text>
+<line class="wire" x1="455" y1="165" x2="455" y2="120"/><path class="r" d="M455 120 l12 -10 12 20 12 -20 12 20 12 -10"/><line class="wire" x1="515" y1="120" x2="565" y2="120"/><line class="wire" x1="565" y1="120" x2="565" y2="190"/><text class="sm" x="470" y="100">R3 10k</text><line class="cap" x1="490" y1="125" x2="490" y2="155"/><line class="cap" x1="506" y1="125" x2="506" y2="155"/><text class="xs" x="500" y="172">C2 0.1µF</text>
+<text class="xs" x="540" y="215">DELAY_IN</text>
+
+<!-- U3B -->
+<path class="r" d="M590 190 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><line class="wire" x1="650" y1="190" x2="700" y2="190"/><text class="sm" x="595" y="150">R5 10k</text>
+<polygon class="ic" points="700,150 700,230 780,190"/><text class="sm" x="705" y="145">U3B NE5532</text><text class="xs" x="685" y="176">−</text><text class="xs" x="685" y="218">+</text><line class="wire" x1="780" y1="190" x2="835" y2="190"/>
+<line class="wire" x1="700" y1="215" x2="675" y2="215"/><path class="r" d="M675 215 l0 10 -10 10 20 10 -20 10 20 10 -10 10"/><line class="wire" x1="675" y1="275" x2="675" y2="305"/><text class="sm" x="690" y="260">R6 1M → VREF</text>
+<line class="wire" x1="700" y1="165" x2="700" y2="120"/><path class="r" d="M700 120 l12 -10 12 20 12 -20 12 20 12 -10"/><line class="wire" x1="760" y1="120" x2="810" y2="120"/><line class="wire" x1="810" y1="120" x2="810" y2="190"/><text class="sm" x="715" y="100">R7 10k</text><line class="cap" x1="735" y1="125" x2="735" y2="155"/><line class="cap" x1="751" y1="125" x2="751" y2="155"/><text class="xs" x="745" y="172">C3 1nF</text>
+<line class="cap" x1="835" y1="168" x2="835" y2="212"/><line class="cap" x1="851" y1="168" x2="851" y2="212"/><line class="wire" x1="851" y1="190" x2="910" y2="190"/><text class="sm" x="815" y="150">C4 1µF</text><path class="r" d="M885 190 l0 15 -10 10 20 10 -20 10 10 10"/><text class="sm" x="900" y="235">R8 1M GND</text><rect class="box" x="925" y="165" width="70" height="50"/><text class="xs" x="938" y="195">SW1A</text><line class="wire" x1="995" y1="190" x2="1040" y2="190"/><circle class="wire" cx="1055" cy="190" r="12"/><text class="sm" x="1035" y="165">OUT</text>
+
+<!-- POWER / VREF -->
+<rect class="dash" x="45" y="375" width="690" height="260" rx="10"/><text class="head" x="70" y="410">POWER + 5V REGULATOR + VREF</text>
+<text class="sm" x="75" y="455">9V DC</text><line class="wire" x1="145" y1="450" x2="190" y2="450"/><text class="sm" x="185" y="430">D1 1N4148</text><polygon points="205,440 225,450 205,460" fill="none" stroke="#111" stroke-width="2"/><line class="wire" x1="225" y1="440" x2="225" y2="460"/><line class="wire" x1="225" y1="450" x2="270" y2="450"/>
+<rect class="ic" x="270" y="425" width="120" height="60"/><text class="sm" x="282" y="458">U2 78L05</text><line class="wire" x1="390" y1="450" x2="450" y2="450"/><text class="sm" x="405" y="430">+5V</text>
+<text class="xs" x="95" y="520">C5 0.1µF / C6 47µF</text><text class="xs" x="315" y="520">C7 0.1µF / C8 100µF</text>
+<line class="wire" x1="520" y1="450" x2="520" y2="500"/><path class="r" d="M520 500 l-10 10 20 10 -20 10 20 10 -10 10"/><line class="wire" x1="520" y1="550" x2="520" y2="585"/><text class="sm" x="535" y="530">R11 10k</text>
+<line class="wire" x1="520" y1="585" x2="630" y2="585"/><text class="sm" x="635" y="590">VREF</text><path class="r" d="M630 585 l0 -10 10 -10 -20 -10 20 -10 -20 -10 10 -10"/><line class="wire" x1="630" y1="525" x2="630" y2="450"/><text class="sm" x="645" y="535">R12 10k</text><text class="xs" x="550" y="615">C9 47µF + C10 0.1µF to GND</text>
+
+<!-- PT2399 CORE -->
+<rect class="dash" x="770" y="350" width="785" height="560" rx="10"/><text class="head" x="800" y="390">PT2399 DELAY CORE / FEEDBACK / MIX</text>
+<rect class="ic" x="860" y="535" width="210" height="250"/><text class="head" x="910" y="575">U1 PT2399</text>
+<text class="xs" x="875" y="610">1  VCC       16 LPF2-IN</text><text class="xs" x="875" y="635">2  REF       15 LPF2-OUT</text><text class="xs" x="875" y="660">3  AGND      14 LPF1-OUT</text><text class="xs" x="875" y="685">4  DGND      13 LPF1-IN</text><text class="xs" x="875" y="710">5  CLK-OUT   12 OP2-OUT</text><text class="xs" x="875" y="735">6  VCO       11 OP2-IN</text><text class="xs" x="875" y="760">7/8 filter   9/10 filter</text>
+<line class="wire" x1="860" y1="560" x2="810" y2="560"/><text class="sm" x="790" y="535">+5V</text>
+
+<!-- Delay length -->
+<line class="wire" x1="860" y1="685" x2="810" y2="685"/><rect class="box" x="720" y="660" width="80" height="70"/><text class="xs" x="730" y="686">POT1</text><text class="xs" x="724" y="708">DELAY 20k</text><line class="wire" x1="720" y1="695" x2="690" y2="695"/><path class="r" d="M690 695 l0 8 -8 8 16 8 -16 8 8 8"/><text class="xs" x="650" y="750">R22 1k → GND</text><text class="xs" x="735" y="745">C11 47µF · C12/C13 0.1µF</text>
+
+<!-- PT filters -->
+<text class="xs" x="1095" y="535">C14/C15 82nF</text><text class="xs" x="1095" y="558">C16/C20 560pF</text><text class="xs" x="1095" y="581">C17 3.3nF · C18 0.01µF</text><text class="xs" x="1095" y="604">C19/C22/C23 4.7µF</text><text class="xs" x="1095" y="627">C21 10µF · C24 3.9nF</text>
+<text class="xs" x="1095" y="660">R14 10k · R15 10k · R16 10k</text><text class="xs" x="1095" y="683">R18 5.6k · R19 10k · R20 15k</text><text class="xs" x="1095" y="706">R21 10k</text>
+
+<!-- delay in -->
+<line class="wire" x1="1070" y1="520" x2="1180" y2="520"/><path class="r" d="M1180 520 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><line class="wire" x1="1240" y1="520" x2="1290" y2="520"/><line class="cap" x1="1290" y1="500" x2="1290" y2="540"/><line class="cap" x1="1306" y1="500" x2="1306" y2="540"/><text class="xs" x="1165" y="490">R13 15k</text><text class="xs" x="1270" y="490">C23 4.7µF</text><text class="sm" x="1318" y="525">DELAY_IN</text>
+
+<!-- feedback -->
+<line class="wire" x1="1070" y1="735" x2="1170" y2="735"/><line class="cap" x1="1170" y1="715" x2="1170" y2="755"/><line class="cap" x1="1186" y1="715" x2="1186" y2="755"/><path class="r" d="M1186 735 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><line class="wire" x1="1246" y1="735" x2="1285" y2="735"/><rect class="box" x="1285" y="705" width="90" height="65"/><text class="xs" x="1298" y="732">POT3</text><text class="xs" x="1292" y="752">FEEDBACK 50k</text><text class="xs" x="1160" y="785">C22 4.7µF · R17 3.3k</text>
+
+<!-- mix -->
+<line class="wire" x1="1070" y1="790" x2="1180" y2="790"/><line class="cap" x1="1180" y1="770" x2="1180" y2="810"/><line class="cap" x1="1196" y1="770" x2="1196" y2="810"/><line class="wire" x1="1196" y1="790" x2="1285" y2="790"/><rect class="box" x="1285" y="780" width="90" height="70"/><text class="xs" x="1300" y="807">POT2</text><text class="xs" x="1308" y="829">MIX 20k</text><text class="xs" x="1135" y="845">C19 4.7µF</text><text class="sm" x="1075" y="815">DELAY_OUT</text>
+
+<!-- footer -->
+<line x1="25" y1="940" x2="1575" y2="940" stroke="#111" stroke-width="2"/><text class="warn" x="45" y="975">DRAFT / NOT BUILD-READY</text><text class="xs" x="45" y="1000">ToneForge redraw after Synthrotek PT2399 Delay v0.4 PDF. Component references/values are source-aligned; verify every PT2399 pin connection and switching node against the PDF before assembly.</text>
+</svg>
