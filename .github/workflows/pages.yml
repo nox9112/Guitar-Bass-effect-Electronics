@@ -30,7 +30,7 @@ jobs:
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
       - name: Run ToneForge regression suite
-        run: npm test
+        run: npm run test:e2e
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
