@@ -12,10 +12,10 @@ const modalImg=overlay.querySelector('[data-schematic-image]');
 const modalTitle=overlay.querySelector('[data-schematic-title]');
 let lastFocus=null;
 
-function openModal(anchor){
- const img=anchor.querySelector('img');
+function openModal(trigger){
+ const img=trigger.querySelector('img');
  if(!img||img.hidden)return;
- lastFocus=anchor;
+ lastFocus=trigger;
  modalImg.src=img.currentSrc||img.src;
  modalImg.alt=img.alt||'Schaltplan vergrößert';
  modalTitle.textContent=img.alt||'Schaltplan';
@@ -32,17 +32,9 @@ function closeModal(){
  lastFocus=null;
 }
 
-document.querySelectorAll('.plan-stage').forEach(stage=>{
- const card=stage.closest('.source-plan-card');
- const stageUrl=stage.href;
- card?.querySelectorAll('.source-plan-actions a').forEach(a=>{
-  if(a.href===stageUrl && /Originalgröße/i.test(a.textContent||''))a.remove();
- });
-});
-
 document.addEventListener('click',e=>{
  const stage=e.target.closest('.plan-stage');
- if(stage){e.preventDefault();openModal(stage);return;}
+ if(stage){openModal(stage);return;}
  if(e.target.closest('[data-schematic-close]'))closeModal();
 });
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
