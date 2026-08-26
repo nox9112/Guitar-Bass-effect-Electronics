@@ -21,6 +21,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: toneforge-v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install test dependencies
+        run: npm ci
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Run ToneForge regression suite
+        run: npm test
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
@@ -31,4 +42,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# Publish trigger: 2026-08-26 newly sourced schematic batch
+# Quality gate: deploy only after the current toneforge-v2 branch passes Playwright.
