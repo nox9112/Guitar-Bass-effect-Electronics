@@ -22,6 +22,35 @@ test('pedal media uses stable current sources',async({page})=>{
   expect(media['pedal:sd1'].photo).toContain('static.roland.com');
 });
 
+test('library, detail data and source registry stay aligned',async({page})=>{
+  await page.goto('/index.html');
+  const home=await page.evaluate(()=>({
+    keys:window.ToneForgeLibrary.all.map(x=>x.key),
+    names:window.ToneForgeLibrary.all.map(x=>x.name),
+    sources:window.GBE_SCHEMATIC_SOURCES
+  }));
+  expect(home.keys).toHaveLength(56);
+  expect(new Set(home.keys).size).toBe(56);
+  expect(home.names.filter(n=>/-artig/i.test(n))).toEqual([]);
+  expect(Object.keys(home.sources).sort()).toEqual([...home.keys].sort());
+  const allowedReview=new Set(['verified','crosschecked','source-found','candidate']);
+  for(const [key,plans] of Object.entries(home.sources)){
+    expect(Array.isArray(plans)&&plans.length>0,`${key} has no source`).toBeTruthy();
+    for(const plan of plans){
+      expect(String(plan.source||''),`${key} missing https source`).toMatch(/^https:\/\//);
+      expect(String(plan.publisher||''),`${key} missing publisher`).not.toBe('');
+      expect(String(plan.trust||''),`${key} missing trust`).not.toBe('');
+      expect(allowedReview.has(plan.review),`${key} invalid review ${plan.review}`).toBeTruthy();
+      expect(String(plan.checked||''),`${key} missing audit date`).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(String(plan.source||'')).not.toMatch(/^https?:\/\/(www\.)?electrosmash\.com/i);
+      expect(String(plan.image||'')).not.toMatch(/^https?:\/\/(www\.)?electrosmash\.com/i);
+    }
+  }
+  await page.goto('/detail2.html?type=pedal&id=fuzz-face');
+  const detailKeys=await page.evaluate(()=>Object.keys(window.GBE_DATA||{}).sort());
+  expect(detailKeys).toEqual([...home.keys].sort());
+});
+
 test('every library key has at least one real technical source',async({page})=>{
   await page.goto('/index.html');
   const result=await page.evaluate(()=>({
