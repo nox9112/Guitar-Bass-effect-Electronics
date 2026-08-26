@@ -32,6 +32,14 @@ function closeModal(){
  lastFocus=null;
 }
 
+document.querySelectorAll('.plan-stage').forEach(stage=>{
+ const card=stage.closest('.source-plan-card');
+ const stageUrl=stage.href;
+ card?.querySelectorAll('.source-plan-actions a').forEach(a=>{
+  if(a.href===stageUrl && /Originalgröße/i.test(a.textContent||''))a.remove();
+ });
+});
+
 document.addEventListener('click',e=>{
  const stage=e.target.closest('.plan-stage');
  if(stage){e.preventDefault();openModal(stage);return;}
