@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">Dallas Rangemaster Treble Booster — ToneForge local redraw</title>
+<desc id="desc">Classic OC44 PNP positive-ground Dallas Rangemaster schematic redraw based on ElectroSmash reference.</desc>
+<style>
+.bg{fill:#fff}.wire{fill:none;stroke:#111;stroke-width:3;stroke-linecap:square;stroke-linejoin:miter}.thin{fill:none;stroke:#111;stroke-width:2}.node{fill:#111}.txt{font:22px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.sm{font:18px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.xs{font:15px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.head{font:700 28px system-ui,sans-serif;fill:#111}.sub{font:600 18px system-ui,sans-serif;fill:#444}.warn{font:700 16px system-ui,sans-serif;fill:#8b2d2d}.r{fill:none;stroke:#111;stroke-width:3}.cap{stroke:#111;stroke-width:3}.box{fill:none;stroke:#777;stroke-width:2;stroke-dasharray:8 6}.pot{fill:none;stroke:#111;stroke-width:3}
+</style>
+<rect class="bg" width="1200" height="720"/>
+<rect x="12" y="12" width="1176" height="696" fill="none" stroke="#111" stroke-width="2"/>
+<text class="head" x="45" y="55">Dallas Rangemaster Treble Booster</text>
+<text class="sub" x="45" y="84">Classic OC44 PNP · positive-ground topology · ToneForge local redraw</text>
+
+<!-- INPUT -->
+<text class="txt" x="55" y="190">IN</text>
+<circle class="wire" cx="80" cy="245" r="14"/>
+<line class="wire" x1="94" y1="245" x2="170" y2="245"/>
+<line class="cap" x1="170" y1="222" x2="170" y2="268"/>
+<line class="cap" x1="188" y1="222" x2="188" y2="268"/>
+<line class="wire" x1="188" y1="245" x2="350" y2="245"/>
+<text class="sm" x="145" y="205">C1 5 nF</text>
+<line class="wire" x1="80" y1="259" x2="80" y2="325"/>
+<circle cx="80" cy="325" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="48" y="355">+9 V</text>
+<text class="xs" x="45" y="380">signal return / chassis</text>
+
+<!-- BASE BIAS -->
+<circle class="node" cx="350" cy="245" r="5"/>
+<line class="wire" x1="350" y1="245" x2="350" y2="125"/>
+<path class="r" d="M350 125 l-12 -12 24 -12 -24 -12 24 -12 -24 -12 12 -12"/>
+<line class="wire" x1="350" y1="53" x2="350" y2="105"/>
+<text class="sm" x="370" y="105">R1 470 kΩ</text>
+<line class="wire" x1="330" y1="53" x2="370" y2="53"/><line class="wire" x1="336" y1="44" x2="364" y2="44"/><line class="wire" x1="343" y1="35" x2="357" y2="35"/>
+<text class="xs" x="385" y="49">0 V (battery −)</text>
+
+<line class="wire" x1="350" y1="245" x2="350" y2="355"/>
+<path class="r" d="M350 355 l-12 12 24 12 -24 12 24 12 -24 12 12 12"/>
+<line class="wire" x1="350" y1="427" x2="350" y2="500"/>
+<circle cx="350" cy="500" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="300" y="530">+9 V</text>
+<text class="sm" x="370" y="410">R2 68 kΩ</text>
+
+<!-- Q1 OC44 PNP -->
+<line class="wire" x1="350" y1="245" x2="500" y2="245"/>
+<circle cx="555" cy="245" r="42" fill="none" stroke="#111" stroke-width="3"/>
+<line class="wire" x1="500" y1="245" x2="527" y2="245"/>
+<line class="wire" x1="555" y1="203" x2="555" y2="150"/>
+<line class="wire" x1="555" y1="287" x2="555" y2="340"/>
+<line class="thin" x1="530" y1="230" x2="558" y2="214"/>
+<path d="M539 222 l15 0 -7 13 z" fill="#111"/>
+<text class="xs" x="512" y="238">B</text><text class="xs" x="566" y="194">C</text><text class="xs" x="566" y="304">E</text>
+<text class="txt" x="605" y="235">Q1</text><text class="txt" x="605" y="265">OC44</text>
+
+<!-- COLLECTOR / VOLUME -->
+<line class="wire" x1="555" y1="150" x2="555" y2="105"/>
+<path class="pot" d="M555 105 l-12 -12 24 -12 -24 -12 24 -12 -24 -12 12 -12"/>
+<line class="wire" x1="555" y1="33" x2="555" y2="25"/>
+<line class="wire" x1="535" y1="25" x2="575" y2="25"/><line class="wire" x1="541" y1="16" x2="569" y2="16"/>
+<line class="wire" x1="600" y1="72" x2="570" y2="72"/>
+<path d="M570 72 l16 -8 v16 z" fill="#111"/>
+<line class="wire" x1="600" y1="72" x2="710" y2="72"/>
+<text class="sm" x="590" y="115">RV 10 kΩ A</text>
+
+<!-- OUTPUT COUPLING -->
+<line class="cap" x1="710" y1="49" x2="710" y2="95"/>
+<line class="cap" x1="728" y1="49" x2="728" y2="95"/>
+<line class="wire" x1="728" y1="72" x2="900" y2="72"/>
+<text class="sm" x="685" y="125">C2 10 nF</text>
+<circle class="wire" cx="915" cy="72" r="14"/>
+<text class="txt" x="895" y="45">OUT</text>
+<line class="wire" x1="915" y1="86" x2="915" y2="145"/>
+<circle cx="915" cy="145" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="887" y="176">+9 V</text>
+
+<!-- EMITTER RESISTOR + BYPASS -->
+<line class="wire" x1="555" y1="340" x2="555" y2="385"/>
+<circle class="node" cx="555" cy="385" r="5"/>
+<path class="r" d="M555 385 l-12 12 24 12 -24 12 24 12 -24 12 12 12"/>
+<line class="wire" x1="555" y1="457" x2="555" y2="500"/>
+<circle cx="555" cy="500" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="575" y="430">R3 3.9 kΩ</text>
+<line class="wire" x1="555" y1="385" x2="685" y2="385"/>
+<line class="cap" x1="685" y1="395" x2="735" y2="395"/>
+<path d="M685 414 q25 18 50 0" fill="none" stroke="#111" stroke-width="3"/>
+<line class="wire" x1="710" y1="414" x2="710" y2="500"/>
+<circle cx="710" cy="500" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="745" y="405">C3 47 µF</text><text class="xs" x="655" y="389">+</text>
+
+<!-- SUPPLY DECOUPLING -->
+<rect class="box" x="830" y="270" width="300" height="250" rx="8"/>
+<text class="head" x="860" y="310">POWER / RETURN</text>
+<circle cx="900" cy="355" r="8" fill="#fff" stroke="#111" stroke-width="2"/>
+<text class="sm" x="865" y="345">+9 V</text>
+<line class="wire" x1="900" y1="363" x2="900" y2="405"/>
+<line class="cap" x1="875" y1="405" x2="925" y2="405"/>
+<path d="M875 424 q25 18 50 0" fill="none" stroke="#111" stroke-width="3"/>
+<line class="wire" x1="900" y1="424" x2="900" y2="475"/>
+<line class="wire" x1="880" y1="475" x2="920" y2="475"/><line class="wire" x1="886" y1="484" x2="914" y2="484"/><line class="wire" x1="893" y1="493" x2="907" y2="493"/>
+<text class="sm" x="945" y="418">C4 47 µF</text>
+<text class="xs" x="855" y="545">Original positive-ground arrangement:</text>
+<text class="xs" x="855" y="567">input/output sleeves tie to +9 V.</text>
+
+<!-- FOOTER -->
+<line x1="25" y1="595" x2="1175" y2="595" stroke="#111" stroke-width="2"/>
+<text class="warn" x="45" y="630">DRAFT / NOT YET BUILD-READY</text>
+<text class="xs" x="45" y="655">ToneForge redraw based on ElectroSmash Dallas Rangemaster reference. Verify OC44 pinout, polarity, bias and exact build revision before assembly.</text>
+<text class="xs" x="45" y="680">Reference topology: C1 5 nF · C2 10 nF · C3/C4 47 µF · R1 470 kΩ · R2 68 kΩ · R3 3.9 kΩ · RV 10 kΩ.</text>
+</svg>
