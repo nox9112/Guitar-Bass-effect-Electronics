@@ -15,7 +15,8 @@ P['pedal:orange-squeezer']=[
  {label:'Dan Armstrong Orange Squeezer · Original reference',standard:'ANSI',revision:'Original circuit reference · GGG scan/redraw',image:'',source:'https://generalguitargadgets.com/pdf/ggg_osq_sc_original.pdf',publisher:'General Guitar Gadgets',trust:'reference',review:'source-found',checked,note:'Originalschaltung als Gegenreferenz; ToneForge hostet keine Kopie.'}
 ];
 P['pedal:noise-gate']=[
- {label:'No-Noise Gate · MXR Noise Gate inspired',standard:'ANSI',revision:'PCB Guitar Mania · Building Docs v1.2 · 2021-11-29',image:'',source:'https://pcbguitarmania.com/wp-content/uploads/2018/07/No-Noise-Gate-1.2v-Building-Docs.pdf',publisher:'PCB Guitar Mania',trust:'established-diy',review:'source-found',checked,note:'Vollständiges Building-Doc mit Schaltplan. Konkrete Schaltung mit Dual-OpAmp, zwei 2N3904 und JFET 2N5485/2N5457-Familie. ToneForge-Projekt wird auf diese Revision umgestellt, bevor BOM als gegengeprüft gilt.'}
+ {label:'MXR M-106 Noise Gate · corrected schematic discussion',standard:'ANSI',revision:'M-106 corrected reference · PCB-photo crosscheck',image:'',source:'https://www.diystompboxes.com/smfforum/index.php?topic=122689.0',publisher:'DIYStompboxes · Rob Strand',trust:'established-diy',review:'source-found',checked,note:'Korrigierte M-106-Referenz. Der Autor beschreibt den Abgleich gegen Fotos originaler MXR-PCBs und weist ausdrücklich auf Fehler in älteren verbreiteten Schaltplänen hin. ToneForge-BOM bleibt bis zum eigenen 1:1-Abgleich gesperrt.'},
+ {label:'MXR Noise Gate · verified perf/PCB layout reference',standard:'ANSI',revision:'Effects Layouts · 2016 · based on corrected FSB work',image:'',source:'https://effectslayouts.blogspot.com/2016/03/mxr-noise-gate.html',publisher:'Effects Layouts',trust:'reference',review:'source-found',checked,note:'Sekundäre Layout-Referenz auf Basis der korrigierten Community-Schaltung und des originalen MXR-Layouts. Nicht als alleinige Build-Freigabe verwenden.'}
 ];
 P['pedal:envelope-filter']=[
  {label:'Aion Minima Resonant Filter · Mu-Tron Micro V',standard:'ANSI',revision:'Aion Minima v1.0.0 · 2023-09-08',image:'',source:'https://aionfx.com/app/files/docs/minima_documentation.pdf',publisher:'Aion FX',trust:'established-diy',review:'source-found',checked,note:'Vollständige Build-Dokumentation mit BOM, Schaltplan, Verdrahtung und Build Notes. LM13700-basierte moderne Adaptation des Mu-Tron Micro V; ToneForge-BOM noch auf diese konkrete Variante einfrieren.'}
@@ -31,7 +32,7 @@ const rename={
  'pedal:boss-ds1':'BOSS DS-1 · Revision auswählen',
  'pedal:sd1':'BOSS SD-1 · Revision auswählen',
  'pedal:orange-squeezer':'Dan Armstrong Orange Squeezer',
- 'pedal:noise-gate':'No-Noise Gate · JFET',
+ 'pedal:noise-gate':'MXR M-106 Noise Gate · korrigierte Referenz',
  'pedal:envelope-filter':'Minima Resonant Filter · Mu-Tron Micro V',
  'pedal:belton-reverb':'Sproing Reverb · BTDR-2H',
  'pedal:aby-buffered':'Buffered ABY · Dual IC Buffer'
