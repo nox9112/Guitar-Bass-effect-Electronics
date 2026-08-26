@@ -41,4 +41,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# Publish checkpoint: media audit fixes after full-source coverage pass.
+# Publish checkpoint: corrected M-106 source, 25/25 pedal reference media and data-integrity checks.
