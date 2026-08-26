@@ -41,4 +41,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-# Quality gate: deploy only after the current toneforge-v2 branch passes Playwright.
+# Publish checkpoint: media audit fixes after full-source coverage pass.
