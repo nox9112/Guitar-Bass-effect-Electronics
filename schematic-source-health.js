@@ -19,6 +19,7 @@ for(const [key,repl] of Object.entries(archive)){
   if(!/electrosmash/i.test(String(plan.publisher||''))&&!/electrosmash\.com/i.test(String(plan.source||'')))continue;
   plan.source=repl.source;
   if(repl.image)plan.image=repl.image;
+  else if(/electrosmash\.com/i.test(String(plan.image||'')))plan.image='';
   plan.sourceHealth='archive';
   plan.sourceHealthNote='Original ElectroSmash currently unavailable; routed to MAS Effects archive rebuilt from Internet Archive.';
  }
