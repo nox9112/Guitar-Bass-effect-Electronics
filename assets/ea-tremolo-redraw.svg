@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+<title id="title">Improved EA Tremolo — ToneForge local redraw draft</title><desc id="desc">Local vector redraw based on the General Guitar Gadgets Improved EA Tremolo schematic, version 2007Nov13.</desc>
+<style>.bg{fill:#fff}.wire{fill:none;stroke:#111;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter}.node{fill:#111}.txt{font:19px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.sm{font:15px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.xs{font:12px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#111}.head{font:700 24px system-ui,sans-serif;fill:#111}.warn{font:700 16px system-ui,sans-serif;fill:#8b2d2d}.box{fill:none;stroke:#666;stroke-width:1.5;stroke-dasharray:8 6}.r{fill:none;stroke:#111;stroke-width:2.4}.cap{stroke:#111;stroke-width:2.4}.dev{fill:#fff;stroke:#111;stroke-width:2.5}.pot{fill:#fff;stroke:#111;stroke-width:2.3}</style>
+<rect class="bg" width="1500" height="900"/><rect x="12" y="12" width="1476" height="876" fill="none" stroke="#111" stroke-width="2"/>
+<text class="head" x="45" y="52">Improved EA Tremolo · GGG 2007Nov13</text><text class="sm" x="45" y="78">ToneForge local redraw · source is linked, not rehosted · draft</text>
+
+<rect class="box" x="35" y="115" width="830" height="585" rx="8"/><text class="head" x="60" y="150">AUDIO PATH / GAIN CONTROL</text>
+<rect class="box" x="885" y="115" width="570" height="585" rx="8"/><text class="head" x="910" y="150">LFO / DEPTH / SPEED</text>
+
+<!-- supply -->
+<text class="sm" x="70" y="190">+9V</text><line class="wire" x1="105" y1="195" x2="105" y2="230"/><path class="r" d="M105 230 l-10 10 20 10 -20 10 20 10 -10 10"/><line class="wire" x1="105" y1="290" x2="105" y2="320"/><text class="sm" x="120" y="260">R15 1k</text>
+
+<!-- input switch / buffer -->
+<circle class="wire" cx="75" cy="380" r="12"/><text class="sm" x="45" y="355">J1 IN</text><rect class="dev" x="115" y="350" width="65" height="55"/><text class="xs" x="126" y="382">SW1a</text><line class="wire" x1="87" y1="380" x2="115" y2="380"/><line class="wire" x1="180" y1="380" x2="235" y2="380"/>
+<line class="cap" x1="235" y1="358" x2="235" y2="402"/><line class="cap" x1="251" y1="358" x2="251" y2="402"/><line class="wire" x1="251" y1="380" x2="310" y2="380"/><text class="sm" x="215" y="340">C8 0.05µF</text>
+<line class="wire" x1="205" y1="380" x2="205" y2="450"/><path class="r" d="M205 450 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="220" y="485">R1 1M → GND</text>
+
+<!-- Q4 JFET source follower -->
+<circle class="dev" cx="365" cy="380" r="36"/><text class="sm" x="330" y="440">Q4 2N5457/J201</text><line class="wire" x1="310" y1="380" x2="329" y2="380"/><line class="wire" x1="365" y1="344" x2="365" y2="255"/><line class="wire" x1="365" y1="416" x2="365" y2="475"/><text class="xs" x="347" y="375">G</text><text class="xs" x="373" y="335">D</text><text class="xs" x="373" y="430">S</text>
+<line class="wire" x1="365" y1="255" x2="365" y2="195"/><text class="sm" x="340" y="185">+9V</text>
+<path class="r" d="M365 475 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="380" y="510">R17 10k</text><line class="wire" x1="365" y1="535" x2="365" y2="555"/>
+<line class="wire" x1="300" y1="380" x2="300" y2="455"/><path class="r" d="M300 455 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="245" y="510">R16 1M</text>
+
+<!-- C9 / C1 coupling -->
+<line class="wire" x1="365" y1="450" x2="430" y2="450"/><line class="cap" x1="430" y1="428" x2="430" y2="472"/><path d="M446 428 q-12 22 0 44" fill="none" stroke="#111" stroke-width="2.5"/><line class="wire" x1="446" y1="450" x2="485" y2="450"/><text class="sm" x="405" y="415">C9 10µF</text><line class="cap" x1="485" y1="428" x2="485" y2="472"/><line class="cap" x1="501" y1="428" x2="501" y2="472"/><line class="wire" x1="501" y1="450" x2="555" y2="450"/><text class="sm" x="470" y="415">C1 0.22µF</text>
+
+<!-- Q1 gain stage -->
+<circle class="dev" cx="610" cy="450" r="36"/><text class="sm" x="585" y="510">Q1 2N3904</text><line class="wire" x1="555" y1="450" x2="574" y2="450"/><line class="wire" x1="610" y1="414" x2="610" y2="330"/><line class="wire" x1="610" y1="486" x2="610" y2="545"/>
+<path class="r" d="M610 330 l-10 -10 20 -10 -20 -10 20 -10 -10 -10"/><line class="wire" x1="610" y1="280" x2="610" y2="195"/><text class="sm" x="625" y="300">R4 47k</text>
+<line class="wire" x1="555" y1="450" x2="555" y2="530"/><path class="r" d="M555 530 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="500" y="565">R3 150k</text>
+<line class="wire" x1="545" y1="450" x2="545" y2="280"/><path class="r" d="M545 280 l-10 -10 20 -10 -20 -10 20 -10 -10 -10"/><line class="wire" x1="545" y1="230" x2="545" y2="195"/><text class="sm" x="485" y="260">R2 560k</text>
+<path class="r" d="M610 545 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="625" y="575">R5 180Ω</text><line class="wire" x1="610" y1="605" x2="610" y2="625"/><path class="r" d="M610 625 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="625" y="658">R6 1.2k</text>
+<line class="wire" x1="610" y1="605" x2="690" y2="605"/><line class="cap" x1="690" y1="585" x2="690" y2="625"/><path d="M706 585 q-12 20 0 40" fill="none" stroke="#111" stroke-width="2.4"/><line class="wire" x1="706" y1="605" x2="745" y2="605"/><text class="sm" x="660" y="570">C3 22µF</text>
+
+<!-- collector output / volume -->
+<line class="wire" x1="610" y1="330" x2="675" y2="330"/><line class="cap" x1="675" y1="308" x2="675" y2="352"/><line class="cap" x1="691" y1="308" x2="691" y2="352"/><line class="wire" x1="691" y1="330" x2="760" y2="330"/><text class="sm" x="650" y="292">C2 0.47µF</text>
+<rect class="pot" x="760" y="285" width="70" height="115"/><text class="xs" x="770" y="325">R12</text><text class="xs" x="765" y="345">25k LOG</text><text class="xs" x="768" y="365">VOLUME</text><line class="wire" x1="830" y1="342" x2="855" y2="342"/>
+
+<!-- Q2 JFET gain control -->
+<circle class="dev" cx="805" cy="575" r="34"/><text class="sm" x="770" y="630">Q2 2N5457/J201</text><line class="wire" x1="745" y1="605" x2="771" y2="605"/><line class="wire" x1="805" y1="541" x2="805" y2="505"/><line class="wire" x1="805" y1="609" x2="805" y2="670"/><text class="xs" x="785" y="570">G</text><text class="xs" x="813" y="533">D</text><text class="xs" x="813" y="624">S</text>
+
+<!-- LFO -->
+<circle class="dev" cx="1060" cy="470" r="36"/><text class="sm" x="1028" y="530">Q3 2N5088</text><line class="wire" x1="1060" y1="434" x2="1060" y2="350"/><line class="wire" x1="1060" y1="506" x2="1060" y2="555"/>
+<path class="r" d="M1060 350 l-10 -10 20 -10 -20 -10 20 -10 -10 -10"/><line class="wire" x1="1060" y1="300" x2="1060" y2="195"/><text class="sm" x="1075" y="325">R8 15k</text>
+<line class="wire" x1="1060" y1="350" x2="990" y2="350"/><line class="cap" x1="990" y1="328" x2="990" y2="372"/><line class="cap" x1="974" y1="328" x2="974" y2="372"/><line class="wire" x1="974" y1="350" x2="930" y2="350"/><text class="sm" x="940" y="315">C4 0.47µF</text>
+<path class="r" d="M930 350 l0 10 -10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="875" y="405">R7 120k</text>
+<rect class="pot" x="915" y="440" width="80" height="125"/><text class="xs" x="927" y="475">R13</text><text class="xs" x="920" y="495">250k LIN</text><text class="xs" x="930" y="515">DEPTH</text><line class="wire" x1="995" y1="502" x2="1024" y2="502"/><path class="r" d="M955 565 l0 10 -10 10 20 10 -20 10 10 10"/><text class="sm" x="900" y="650">R19 68k</text>
+
+<!-- LFO timing network -->
+<line class="wire" x1="1096" y1="470" x2="1160" y2="470"/><path class="r" d="M1160 470 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><line class="wire" x1="1220" y1="470" x2="1250" y2="470"/><text class="sm" x="1165" y="440">R9 2.2M</text>
+<line class="cap" x1="1250" y1="448" x2="1250" y2="492"/><line class="cap" x1="1266" y1="448" x2="1266" y2="492"/><line class="wire" x1="1266" y1="470" x2="1325" y2="470"/><text class="sm" x="1230" y="430">C5 1µF</text>
+<line class="wire" x1="1060" y1="555" x2="1160" y2="555"/><line class="cap" x1="1160" y1="533" x2="1160" y2="577"/><line class="cap" x1="1176" y1="533" x2="1176" y2="577"/><line class="wire" x1="1176" y1="555" x2="1240" y2="555"/><text class="sm" x="1135" y="520">C6 1µF</text><path class="r" d="M1240 555 l10 -10 10 20 10 -20 10 20 10 -20 10 10"/><text class="sm" x="1245" y="525">R10 15k</text>
+<line class="wire" x1="1325" y1="470" x2="1325" y2="555"/><line class="wire" x1="1300" y1="555" x2="1325" y2="555"/>
+<line class="cap" x1="1325" y1="575" x2="1365" y2="575"/><line class="cap" x1="1325" y1="591" x2="1365" y2="591"/><line class="wire" x1="1345" y1="591" x2="1345" y2="625"/><text class="sm" x="1368" y="590">C7 1µF</text>
+<path class="r" d="M1345 625 l-10 10 20 10 -20 10 20 10 -10 10"/><text class="sm" x="1360" y="660">R11 1k</text>
+<rect class="pot" x="1250" y="650" width="90" height="120"/><text class="xs" x="1264" y="685">R14</text><text class="xs" x="1256" y="705">100k REV LOG</text><text class="xs" x="1268" y="725">SPEED</text>
+
+<!-- output -->
+<line class="wire" x1="855" y1="342" x2="1380" y2="342"/><rect class="dev" x="1380" y="315" width="65" height="55"/><text class="xs" x="1390" y="347">SW1b</text><line class="wire" x1="1445" y1="342" x2="1470" y2="342"/><text class="sm" x="1405" y="300">J2 OUT</text>
+
+<!-- footer -->
+<line x1="25" y1="805" x2="1475" y2="805" stroke="#111" stroke-width="2"/><text class="warn" x="45" y="840">DRAFT / NOT BUILD-READY</text><text class="xs" x="45" y="865">ToneForge redraw after GGG Improved EA Tremolo schematic (2007Nov13). Original PDF is linked only; it explicitly refuses rehosting. Verify all switch contacts, Q2/Q4 JFET pinouts, LFO net connections and electrolytic polarities before assembly.</text>
+</svg>
