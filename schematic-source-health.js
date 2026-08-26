@@ -23,4 +23,6 @@ for(const [key,repl] of Object.entries(archive)){
   plan.sourceHealthNote='Original ElectroSmash currently unavailable; routed to MAS Effects archive rebuilt from Internet Archive.';
  }
 }
+const muff=(P['pedal:big-muff']||[]).find(x=>/American V3/i.test(String(x.label||'')));
+if(muff){muff.review='crosschecked';muff.note='ToneForge BOM matches the archived ElectroSmash American Version 3 (1976–1977) reference. This is one concrete V3 reference, not a claim that every V3 production subvariant is identical.';}
 })();
