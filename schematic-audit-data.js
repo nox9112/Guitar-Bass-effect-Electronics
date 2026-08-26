@@ -23,6 +23,12 @@ patch('pedal:tube-screamer',{name:'TS808 · True-Bypass-Effektkern',row:{
  8:'TS808-Effektkern · True Bypass separat'
 }});
 
+patch('pedal:rat',{name:'ProCo RAT · Type B Rev. 7-81',row:{
+ 0:'ProCo RAT · Type B Rev. 7-81',
+ 7:'General Guitar Gadgets Type B Rev. 7-81 + ElectroSmash-Archiv gegengeprüft.',
+ 8:'Type B · Rev. 7-81 · LM308-Kern'
+}});
+
 patch('pedal:compressor',{name:'MXR Dyna Comp · CA3080',row:{
  0:'MXR Dyna Comp · CA3080',
  7:'ElectroSmash-Archiv MXR Dyna Comp Analyse; CA3080-BOM und Topologie gegengeprüft.',
@@ -35,6 +41,12 @@ patch('pedal:phase90',{name:'MXR Phase 90 · Script Logo',row:{
  6:'JFETs nach VGS(off)/Idss matchen und Bias sauber einstellen. GGG-Schaltplan und Politecnico-LTspice-CAD sind als echte technische Quellen hinterlegt; die genaue historische Script-Logo-Produktionsrevision ist noch nicht netzweise verifiziert. Noch nicht build-ready.',
  7:'General Guitar Gadgets P90-Schematic + Politecnico di Milano LTspice CAD. Beim Audit wurden Revisions-/Wertabweichungen zur alten ToneForge-BOM gefunden; netzweiser Abgleich läuft.',
  8:'Script-Logo-Ziel · Revision/BOM noch offen'
+}});
+
+patch('pedal:chorus',{name:'BOSS CE-2 · MN3007/MN3101',row:{
+ 0:'BOSS CE-2 · MN3007/MN3101',
+ 7:'ElectroSmash-Archiv CE-2 Analyse; BBD-, Clock- und Audio-Topologie gegengeprüft. ACA-/PSA-Versorgungsrevision separat festlegen.',
+ 8:'CE-2 · MN3007/MN3101 · Power-Revision beachten'
 }});
 
 patch('pedal:pt2399',{row:{
